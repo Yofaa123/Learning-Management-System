@@ -265,34 +265,40 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildAnnouncementSection() {
     return colAnnouncement(
       'Maintenance Pra UAS Semester Genap 2020/2021',
-      'https://via.placeholder.com/300x150', // Placeholder, user will replace
+      'assets/images/pengumuman_home.png',
     );
   }
 
   Widget colAnnouncement(String _title, String _imageUrl) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          _title,
-          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(height: 5),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.network(
-            _imageUrl,
-            width: double.infinity,
-            height: 150,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => Container(
-              height: 150,
-              color: Colors.grey[300],
-              child: const Center(child: Icon(Icons.image, color: Colors.grey)),
+    return Card(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              _title,
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
             ),
-          ),
+            const SizedBox(height: 10),
+            Image.asset(
+              _imageUrl,
+              width: double.infinity,
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) => Container(
+                height: 150,
+                color: Colors.grey[300],
+                child: const Center(
+                  child: Icon(Icons.image, color: Colors.grey),
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
