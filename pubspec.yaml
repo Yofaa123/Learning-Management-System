@@ -61,6 +61,13 @@ flutter:
   assets:
     - assets/images/gedung.jpg
     - assets/images/pengumuman_home.png
+    - assets/images/desain.png
+    - assets/images/kewarganegaraan.jpg
+    - assets/images/sistem_operasi.png
+    - assets/images/pemrograman.jpg
+    - assets/images/inggris.jpg
+    - assets/images/multimedia.jpg
+    - assets/images/olahraga.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -321,10 +321,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       children: [
         _buildClassItem(
-          'DESAIN ANTARMUKA & PENGALAMAN PENGGUNA D4SM-42-03 [ADY]',
+          'DESAIN ANTARMUKA & PENGALAMAN PENGGUNA\nD4SM-42-03 [ADY]',
           '2021/2',
           80, // percentage
           Colors.orangeAccent,
+          'assets/images/desain.png',
         ),
         const SizedBox(height: 15),
         _buildClassItem(
@@ -332,20 +333,47 @@ class _HomeScreenState extends State<HomeScreen> {
           '2021/2',
           65,
           Colors.red,
+          'assets/images/kewarganegaraan.jpg',
         ),
         const SizedBox(height: 15),
         _buildClassItem(
-          'SISTEM OPERASI\nD4SM-44-02 [DD6]',
+          'SISTEM OPERASI\nD4SM-44-02 [DDS]',
           '2021/2',
           50,
           Colors.blue,
+          'assets/images/sistem_operasi.png',
         ),
         const SizedBox(height: 15),
         _buildClassItem(
-          'PEMROGRAMAN PERANGKAT BERGERAK\nMULTIMEDIA\nD4SM-41-GAB1 [APJ]',
+          'PEMROGRAMAN PERANGKAT BERGERAK MULTIMEDIA\nD4SM-41-GAB1 [APJ]',
           '2021/2',
           50,
           Colors.cyan,
+          'assets/images/pemrograman.jpg',
+        ),
+        const SizedBox(height: 15),
+        _buildClassItem(
+          'BAHASA INGGRIS: BUSINES AND SCIENTIFIC\nD4SM-41-GAB1 [ARS]',
+          '2021/2',
+          50,
+          const Color.fromARGB(255, 250, 221, 126),
+          'assets/images/inggris.jpg',
+        ),
+        const SizedBox(height: 15),
+        _buildClassItem(
+          'PEMROGRAMAN MULTIMEDIA INTERAKTIF\nD4SM-43-04 [TPR]',
+          '2021/2',
+          50,
+          Colors.cyan,
+          'assets/images/multimedia.jpg',
+        ),
+        const SizedBox(height: 15),
+        _buildClassItem(
+          'OLAH RAGA\nD3TT-44-02 [EYR]',
+          '2021/2',
+          50,
+          Colors.cyan,
+          'assets/images/olahraga.jpg',
         ),
       ],
     );
@@ -356,17 +384,27 @@ class _HomeScreenState extends State<HomeScreen> {
     String semester,
     int progress,
     Color color,
+    String imagePath,
   ) {
     return Row(
       children: [
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            color: color.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(10),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset(
+            imagePath,
+            width: 60,
+            height: 60,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(Icons.image, color: Colors.grey, size: 30),
+            ),
           ),
-          child: Icon(Icons.book, color: color, size: 30), // Placeholder icon
         ),
         const SizedBox(width: 15),
         Expanded(
