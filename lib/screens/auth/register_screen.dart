@@ -1,21 +1,56 @@
 import 'package:flutter/material.dart';
-import 'help_bottom_sheet.dart';
-import 'register_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
   bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
+
+  void _register() {
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
+
+    if (name.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Semua data wajib diisi')));
+      return;
+    }
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password dan konfirmasi password tidak sama'),
+        ),
+      );
+      return;
+    }
+
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Pendaftaran berhasil')));
+
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -84,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Login',
+                    'Daftar Akun',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -93,8 +128,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 30),
                   TextFormField(
+                    controller: _nameController,
                     decoration: const InputDecoration(
-                      labelText: 'Email 365',
+                      labelText: 'Nama Lengkap',
                       labelStyle: TextStyle(
                         color: Colors.grey,
                         fontWeight: FontWeight.w500,
@@ -116,6 +152,31 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(
+                      labelText: 'Email',
+                      labelStyle: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFFBC4B4B),
+                          width: 2,
+                        ),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFFBC4B4B),
+                          width: 2,
+                        ),
+                      ),
+                      contentPadding: EdgeInsets.symmetric(vertical: 8),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: _passwordController,
                     obscureText: _obscurePassword,
                     decoration: InputDecoration(
                       labelText: 'Password',
@@ -151,11 +212,49 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: _confirmPasswordController,
+                    obscureText: _obscureConfirmPassword,
+                    decoration: InputDecoration(
+                      labelText: 'Konfirmasi Password',
+                      labelStyle: const TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      enabledBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFFBC4B4B),
+                          width: 2,
+                        ),
+                      ),
+                      focusedBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFFBC4B4B),
+                          width: 2,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 8),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureConfirmPassword
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureConfirmPassword = !_obscureConfirmPassword;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 40),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: _register,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFBC4B4B),
                         shape: RoundedRectangleBorder(
@@ -165,66 +264,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         elevation: 5,
                       ),
                       child: const Text(
-                        'Log In',
+                        'Daftar',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(20),
-                            ),
-                          ),
-                          builder: (context) => const HelpBottomSheet(),
-                        );
-                      },
-                      child: const Text(
-                        'Bantuan ?',
-                        style: TextStyle(
-                          color: Color(0xFFBC4B4B),
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Center(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          'Belum punya akun? ',
-                          style: TextStyle(color: Colors.black, fontSize: 14),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const RegisterScreen(),
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            'Buat Akun',
-                            style: TextStyle(
-                              color: Color(0xFFBC4B4B),
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ),
                 ],
