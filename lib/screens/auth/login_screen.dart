@@ -12,66 +12,91 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Header dengan gambar dan curve
-            ClipPath(
-              clipper: HeaderClipper(),
-              child: Container(
-                height: 250,
-                width: double.infinity,
-                color:
-                    Colors.grey, // Placeholder color, replace with Image.asset
-                child: const Center(
-                  child: Text(
-                    'Header Image Placeholder',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
+            Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                ClipPath(
+                  clipper: HeaderClipper(),
+                  child: SizedBox(
+                    height: 300,
+                    width: double.infinity,
+                    child: Image.asset(
+                      'assets/images/gedung.jpg',
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.grey,
+                          child: const Center(
+                            child: Text(
+                              'Header Image Placeholder',
+                              style: TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-            ),
-            // Lingkaran dengan icon
-            Transform.translate(
-              offset: const Offset(0, -40),
-              child: Container(
-                width: 80,
-                height: 80,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFBC4B4B),
-                  shape: BoxShape.circle,
+                Positioned(
+                  bottom: -40,
+                  child: Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFBC4B4B),
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3), 
+                        ),
+                      ],
+                    ),
+                    child: const Icon(Icons.school, color: Colors.white, size: 40),
+                  ),
                 ),
-                child: const Icon(Icons.school, color: Colors.white, size: 40),
-              ),
+              ],
             ),
-            const SizedBox(height: 20),
-            // Judul
-            const Text(
-              'Login',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 40),
-            // Form
+            const SizedBox(height: 60),
+            
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const Text(
+                    'Login',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 30),
                   TextFormField(
                     decoration: const InputDecoration(
                       labelText: 'Email 365',
-                      labelStyle: TextStyle(color: Colors.black),
+                      labelStyle: TextStyle(
+                        color: Colors.grey, 
+                        fontWeight: FontWeight.w500
+                      ),
                       enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFBC4B4B)),
+                        borderSide: BorderSide(color: Color(0xFFBC4B4B), width: 2),
                       ),
                       focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFBC4B4B)),
+                        borderSide: BorderSide(color: Color(0xFFBC4B4B), width: 2),
                       ),
+                      contentPadding: EdgeInsets.symmetric(vertical: 8),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -79,19 +104,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: _obscurePassword,
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      labelStyle: const TextStyle(color: Colors.black),
+                      labelStyle: const TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w500
+                      ),
                       enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFBC4B4B)),
+                        borderSide: BorderSide(color: Color(0xFFBC4B4B), width: 2),
                       ),
                       focusedBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFBC4B4B)),
+                        borderSide: BorderSide(color: Color(0xFFBC4B4B), width: 2),
                       ),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 8),
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscurePassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: const Color(0xFFBC4B4B),
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          color: Colors.black,
                         ),
                         onPressed: () {
                           setState(() {
@@ -102,38 +131,53 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 40),
-                  // Tombol Login
-                  ElevatedButton(
-                    onPressed: () {
-                      // Tidak ada proses
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFBC4B4B),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFBC4B4B),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 15,
+                        ),
+                        elevation: 5,
                       ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 50,
-                        vertical: 15,
+                      child: const Text(
+                        'Log In',
+                        style: TextStyle(
+                          color: Colors.white, 
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold
+                        ),
                       ),
-                    ),
-                    child: const Text(
-                      'Log In',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  // Teks bantuan
-                  GestureDetector(
-                    onTap: () {
-                      // Tidak ada navigasi
-                    },
-                    child: const Text(
-                      'Bantuan ?',
-                      style: TextStyle(color: Color(0xFFBC4B4B), fontSize: 14),
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                      },
+                      child: const Text(
+                        'Bantuan ?',
+                        style: TextStyle(color: Color(0xFFBC4B4B), fontSize: 14),
+                      ),
                     ),
                   ),
                 ],
+              ),
+            ),
+            
+            const SizedBox(height: 40),
+            ClipPath(
+              clipper: BottomWaveClipper(),
+              child: Container(
+                height: 120,
+                width: double.infinity,
+                color: const Color(0xFFBC4B4B),
               ),
             ),
           ],
@@ -143,20 +187,57 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-// Custom Clipper untuk curve header
 class HeaderClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    path.lineTo(0, size.height - 50);
-    path.quadraticBezierTo(
-      size.width / 2,
-      size.height,
-      size.width,
-      size.height - 50,
-    );
+    path.lineTo(0, size.height - 40);
+    path.lineTo(size.width, size.height - 100);
     path.lineTo(size.width, 0);
     path.close();
+    path = Path();
+    path.lineTo(0, size.height);
+    path.lineTo(0, size.height - 20);
+    path.quadraticBezierTo(
+        size.width / 2, size.height + 20, size.width, size.height - 80);
+    path.lineTo(size.width, 0);
+    path.close();
+    path = Path();
+    path.lineTo(0, size.height - 20);
+    path.quadraticBezierTo(
+        size.width / 2, size.height, size.width, size.height - 80);
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
+class BottomWaveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.moveTo(0, 40);
+    path.quadraticBezierTo(size.width / 4, 0, size.width / 2, 40);
+    path.quadraticBezierTo(3 * size.width / 4, 80, size.width, 40);
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.close();
+    path = Path();
+    path.moveTo(0, size.height); 
+    path.lineTo(0, 20); 
+    path.quadraticBezierTo(size.width * 0.5, -40, size.width, 80);
+    path.lineTo(size.width, size.height);
+    path.close();
+    path = Path();
+    path.moveTo(0, 50);
+    path.quadraticBezierTo(size.width * 0.4, -20, size.width, 70);
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.close();
+
     return path;
   }
 
