@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../profile/profile_screen.dart';
 import '../announcement/announcement_screen.dart';
+import '../class/class_screen.dart';
+import '../notification/notification_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,9 +15,21 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ClassScreen()),
+      );
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const NotificationScreen()),
+      );
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   @override
@@ -34,10 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 20),
                   const Text(
                     'Tugas Yang Akan Datang',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
                   _buildTaskCard(),
@@ -77,10 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 20),
                   const Text(
                     'Progres Kelas',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
                   _buildClassProgressList(),
@@ -95,14 +103,10 @@ class _HomeScreenState extends State<HomeScreen> {
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(30.0),
-            topRight: Radius.circular(30.0),                                                                                
+            topRight: Radius.circular(30.0),
           ),
           boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              spreadRadius: 5,
-              blurRadius: 10,
-            ),
+            BoxShadow(color: Colors.black12, spreadRadius: 5, blurRadius: 10),
           ],
         ),
         child: ClipRRect(
@@ -112,10 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           child: BottomNavigationBar(
             items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
               BottomNavigationBarItem(
                 icon: Icon(Icons.school),
                 label: 'Kelas Saya',
@@ -158,10 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: const [
                   Text(
                     'Halo,',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                   Text(
                     'DANDY CANDRA PRATAMA',
@@ -188,7 +186,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(20),
                     side: const BorderSide(color: Colors.white, width: 1),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                 ),
                 child: Row(
                   children: const [
@@ -238,10 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(height: 10),
           Text(
             'Tugas 01 - UID Android Mobile Game',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-            ),
+            style: TextStyle(color: Colors.white, fontSize: 12),
           ),
           SizedBox(height: 20),
           Divider(color: Colors.white54, thickness: 1),
@@ -256,10 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Text(
             'Jumat 26 Februari, 23:59 WIB',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-            ),
+            style: TextStyle(color: Colors.white, fontSize: 12),
           ),
         ],
       ),
@@ -268,9 +263,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildAnnouncementSection() {
     return colAnnouncement(
-        'Maintenance Pra UAS Semester Genap 2020/2021',
-        'https://via.placeholder.com/300x150' // Placeholder, user will replace
-        );
+      'Maintenance Pra UAS Semester Genap 2020/2021',
+      'https://via.placeholder.com/300x150', // Placeholder, user will replace
+    );
   }
 
   Widget colAnnouncement(String _title, String _imageUrl) {
@@ -325,16 +320,21 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         const SizedBox(height: 15),
         _buildClassItem(
-            'PEMROGRAMAN PERANGKAT BERGERAK\nMULTIMEDIA\nD4SM-41-GAB1 [APJ]',
-            '2021/2',
-            50,
-            Colors.cyan),
+          'PEMROGRAMAN PERANGKAT BERGERAK\nMULTIMEDIA\nD4SM-41-GAB1 [APJ]',
+          '2021/2',
+          50,
+          Colors.cyan,
+        ),
       ],
     );
   }
 
   Widget _buildClassItem(
-      String title, String semester, int progress, Color color) {
+    String title,
+    String semester,
+    int progress,
+    Color color,
+  ) {
     return Row(
       children: [
         Container(
@@ -357,7 +357,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Text(
                 title,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
