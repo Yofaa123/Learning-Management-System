@@ -114,6 +114,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(height: 60),
 
             Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Color(0xFFBC4B4B),
+                    size: 28,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
