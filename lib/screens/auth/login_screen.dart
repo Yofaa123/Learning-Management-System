@@ -14,6 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  String? userName;
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +177,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const HomeScreen(),
+                              builder: (context) =>
+                                  HomeScreen(userName: userName ?? 'User'),
                             ),
                           );
                         }
@@ -232,13 +234,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(color: Colors.black, fontSize: 14),
                         ),
                         GestureDetector(
-                          onTap: () {
-                            Navigator.push(
+                          onTap: () async {
+                            final result = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const RegisterScreen(),
                               ),
                             );
+                            if (result != null) {
+                              setState(() {
+                                userName = result as String;
+                              });
+                            }
                           },
                           child: const Text(
                             'Buat Akun',
