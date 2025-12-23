@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'help_bottom_sheet.dart';
 import 'register_screen.dart';
+import '../home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -171,6 +172,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Login berhasil')),
+                          );
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomeScreen(),
+                            ),
                           );
                         }
                       },
