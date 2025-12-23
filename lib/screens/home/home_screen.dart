@@ -5,7 +5,8 @@ import '../class/class_screen.dart';
 import '../notification/notification_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final String userName;
+  const HomeScreen({super.key, required this.userName});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -156,13 +157,13 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     'Halo,',
                     style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                   Text(
-                    'DANDY CANDRA PRATAMA',
+                    widget.userName.toUpperCase(),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
