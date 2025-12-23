@@ -46,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       context,
     ).showSnackBar(const SnackBar(content: Text('Pendaftaran berhasil')));
 
-    Navigator.pop(context);
+    Navigator.pop(context, name);
   }
 
   @override
