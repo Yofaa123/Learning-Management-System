@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'help_bottom_sheet.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -37,7 +38,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const Center(
                             child: Text(
                               'Header Image Placeholder',
-                              style: TextStyle(color: Colors.white, fontSize: 18),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
                             ),
                           ),
                         );
@@ -58,17 +62,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.black.withOpacity(0.2),
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: const Offset(0, 3), 
+                          offset: const Offset(0, 3),
                         ),
                       ],
                     ),
-                    child: const Icon(Icons.school, color: Colors.white, size: 40),
+                    child: const Icon(
+                      Icons.school,
+                      color: Colors.white,
+                      size: 40,
+                    ),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 60),
-            
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Column(
@@ -87,14 +95,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: const InputDecoration(
                       labelText: 'Email 365',
                       labelStyle: TextStyle(
-                        color: Colors.grey, 
-                        fontWeight: FontWeight.w500
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w500,
                       ),
                       enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFBC4B4B), width: 2),
+                        borderSide: BorderSide(
+                          color: Color(0xFFBC4B4B),
+                          width: 2,
+                        ),
                       ),
                       focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFBC4B4B), width: 2),
+                        borderSide: BorderSide(
+                          color: Color(0xFFBC4B4B),
+                          width: 2,
+                        ),
                       ),
                       contentPadding: EdgeInsets.symmetric(vertical: 8),
                     ),
@@ -106,13 +120,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       labelText: 'Password',
                       labelStyle: const TextStyle(
                         color: Colors.grey,
-                        fontWeight: FontWeight.w500
+                        fontWeight: FontWeight.w500,
                       ),
                       enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFBC4B4B), width: 2),
+                        borderSide: BorderSide(
+                          color: Color(0xFFBC4B4B),
+                          width: 2,
+                        ),
                       ),
                       focusedBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFBC4B4B), width: 2),
+                        borderSide: BorderSide(
+                          color: Color(0xFFBC4B4B),
+                          width: 2,
+                        ),
                       ),
                       contentPadding: const EdgeInsets.symmetric(vertical: 8),
                       suffixIcon: IconButton(
@@ -134,24 +154,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFBC4B4B),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 15,
-                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
                         elevation: 5,
                       ),
                       child: const Text(
                         'Log In',
                         style: TextStyle(
-                          color: Colors.white, 
+                          color: Colors.white,
                           fontSize: 18,
-                          fontWeight: FontWeight.bold
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -160,17 +177,29 @@ class _LoginScreenState extends State<LoginScreen> {
                   Center(
                     child: GestureDetector(
                       onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(20),
+                            ),
+                          ),
+                          builder: (context) => const HelpBottomSheet(),
+                        );
                       },
                       child: const Text(
                         'Bantuan ?',
-                        style: TextStyle(color: Color(0xFFBC4B4B), fontSize: 14),
+                        style: TextStyle(
+                          color: Color(0xFFBC4B4B),
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 40),
             ClipPath(
               clipper: BottomWaveClipper(),
@@ -199,13 +228,21 @@ class HeaderClipper extends CustomClipper<Path> {
     path.lineTo(0, size.height);
     path.lineTo(0, size.height - 20);
     path.quadraticBezierTo(
-        size.width / 2, size.height + 20, size.width, size.height - 80);
+      size.width / 2,
+      size.height + 20,
+      size.width,
+      size.height - 80,
+    );
     path.lineTo(size.width, 0);
     path.close();
     path = Path();
     path.lineTo(0, size.height - 20);
     path.quadraticBezierTo(
-        size.width / 2, size.height, size.width, size.height - 80);
+      size.width / 2,
+      size.height,
+      size.width,
+      size.height - 80,
+    );
     path.lineTo(size.width, 0);
     path.close();
     return path;
@@ -226,8 +263,8 @@ class BottomWaveClipper extends CustomClipper<Path> {
     path.lineTo(0, size.height);
     path.close();
     path = Path();
-    path.moveTo(0, size.height); 
-    path.lineTo(0, 20); 
+    path.moveTo(0, size.height);
+    path.lineTo(0, 20);
     path.quadraticBezierTo(size.width * 0.5, -40, size.width, 80);
     path.lineTo(size.width, size.height);
     path.close();
