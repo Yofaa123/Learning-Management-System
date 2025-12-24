@@ -7,8 +7,8 @@ import '../notification/notification_screen.dart';
 import 'package:flutter/services.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final String namaUser;
-  const ProfileScreen({super.key, required this.namaUser});
+  final String initialNamaUser;
+  const ProfileScreen({super.key, required this.initialNamaUser});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -16,6 +16,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   int _selectedTabIndex = 0;
+  late String namaUser;
 
   late TextEditingController _firstNameController;
   late TextEditingController _lastNameController;
@@ -26,8 +27,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _firstNameController = TextEditingController();
-    _lastNameController = TextEditingController();
+    namaUser = widget.initialNamaUser;
+    final nameParts = namaUser.split(' ');
+    _firstNameController = TextEditingController(
+      text: nameParts.isNotEmpty ? nameParts[0] : '',
+    );
+    _lastNameController = TextEditingController(
+      text: nameParts.length > 1 ? nameParts[1] : '',
+    );
     _emailController = TextEditingController();
     _countryController = TextEditingController();
     _descriptionController = TextEditingController();
@@ -102,9 +109,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         const SizedBox(height: 15),
                         Text(
-                          widget.namaUser.isEmpty
+                          namaUser.isEmpty
                               ? 'Pengguna'
-                              : widget.namaUser.toUpperCase(),
+                              : namaUser.toUpperCase(),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -237,9 +244,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildTabContent() {
     if (_selectedTabIndex == 0) {
-      String email = widget.namaUser.isEmpty
+      String email = namaUser.isEmpty
           ? "pengguna@gmail.com"
-          : "${widget.namaUser.toLowerCase().replaceAll(' ', '')}@gmail.com";
+          : "${namaUser.toLowerCase().replaceAll(' ', '')}@gmail.com";
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -404,7 +411,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SnackBar(content: Text('Semua field wajib diisi')),
                 );
               } else {
-                Navigator.pop(context, 'saved');
+                final namaLengkap =
+                    "${_firstNameController.text} ${_lastNameController.text}";
+                setState(() {
+                  namaUser = namaLengkap;
+                });
+                Navigator.pop(context, namaLengkap);
               }
             },
             style: ElevatedButton.styleFrom(

@@ -5,8 +5,8 @@ import '../class/class_screen.dart';
 import '../notification/notification_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  final String userName;
-  const HomeScreen({super.key, required this.userName});
+  final String initialUserName;
+  const HomeScreen({super.key, required this.initialUserName});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -14,6 +14,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  late String userName;
+
+  @override
+  void initState() {
+    super.initState();
+    userName = widget.initialUserName;
+  }
 
   void _onItemTapped(int index) {
     if (index == 1) {
@@ -163,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                   Text(
-                    widget.userName.toUpperCase(),
+                    userName.toUpperCase(),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -178,10 +185,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          ProfileScreen(namaUser: widget.userName),
+                          ProfileScreen(initialNamaUser: userName),
                     ),
                   ).then((result) {
-                    if (result == 'saved') {
+                    if (result != null && result is String) {
+                      setState(() {
+                        userName = result;
+                      });
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Perubahan berhasil disimpan'),
