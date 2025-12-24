@@ -52,44 +52,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final topPadding = MediaQuery.of(context).padding.top;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
       ),
       child: Scaffold(
-        extendBodyBehindAppBar: true,
-        backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Stack(
+        backgroundColor: const Color(0xFFBC4B4B),
+        body: Column(
+          children: [
+            Container(
+              height: 300 + topPadding,
+              width: double.infinity,
+              color: const Color(0xFFBC4B4B),
+              child: Stack(
                 clipBehavior: Clip.none,
                 alignment: Alignment.center,
                 children: [
                   // Red Background Header
-                  Container(
-                    height: 300,
-                    width: double.infinity,
-                    color: const Color(0xFFBC4B4B),
-                    padding: const EdgeInsets.only(top: 50, left: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                            size: 28,
-                          ),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                      ],
+                  Positioned(
+                    top: topPadding + 50,
+                    left: 20,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                      onPressed: () => Navigator.pop(context),
                     ),
                   ),
                   // Profile Info
                   Positioned(
-                    top: 70,
+                    top: topPadding + 70,
                     child: Column(
                       children: [
                         Container(
@@ -112,7 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           namaUser.isEmpty
                               ? 'Pengguna'
                               : namaUser.toUpperCase(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -122,52 +118,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   // Tab Card
-                  Container(
-                    margin: const EdgeInsets.only(
-                      top: 260,
-                      left: 25,
-                      right: 25,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 25,
-                      horizontal: 10,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
-                          blurRadius: 15,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _buildTabItem("About Me", 0),
-                        _buildTabItem("Kelas", 1),
-                        _buildTabItem("Edit Profile", 2),
-                      ],
+                  Positioned(
+                    top: topPadding + 260,
+                    left: 25,
+                    right: 25,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 25,
+                        horizontal: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            blurRadius: 15,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildTabItem("About Me", 0),
+                          _buildTabItem("Kelas", 1),
+                          _buildTabItem("Edit Profile", 2),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
-
-              const SizedBox(height: 20),
-
-              // Tab Content
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 30,
-                  vertical: 10,
+            ),
+            Expanded(
+              child: Container(
+                color: Colors.white,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      // Tab Content
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 30,
+                          vertical: 10,
+                        ),
+                        alignment: Alignment.centerLeft,
+                        child: _buildTabContent(),
+                      ),
+                    ],
+                  ),
                 ),
-                alignment: Alignment.centerLeft,
-                child: _buildTabContent(),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         bottomNavigationBar: _buildBottomNavBar(context),
       ),
