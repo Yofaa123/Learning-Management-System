@@ -17,6 +17,32 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   int _selectedTabIndex = 0;
 
+  late TextEditingController _firstNameController;
+  late TextEditingController _lastNameController;
+  late TextEditingController _emailController;
+  late TextEditingController _countryController;
+  late TextEditingController _descriptionController;
+
+  @override
+  void initState() {
+    super.initState();
+    _firstNameController = TextEditingController();
+    _lastNameController = TextEditingController();
+    _emailController = TextEditingController();
+    _countryController = TextEditingController();
+    _descriptionController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    _countryController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -355,21 +381,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildTextField("Nama Pertama", maxLines: 1),
+        _buildTextField("Nama Pertama", _firstNameController, maxLines: 1),
         const SizedBox(height: 15),
-        _buildTextField("Nama Terakhir", maxLines: 1),
+        _buildTextField("Nama Terakhir", _lastNameController, maxLines: 1),
         const SizedBox(height: 15),
-        _buildTextField("E-mail Address", maxLines: 1),
+        _buildTextField("E-mail Address", _emailController, maxLines: 1),
         const SizedBox(height: 15),
-        _buildTextField("Negara", maxLines: 1),
+        _buildTextField("Negara", _countryController, maxLines: 1),
         const SizedBox(height: 15),
-        _buildTextField("Deskripsi", maxLines: 5),
+        _buildTextField("Deskripsi", _descriptionController, maxLines: 5),
         const SizedBox(height: 20),
         Align(
           alignment: Alignment.centerRight,
           child: ElevatedButton(
             onPressed: () {
-              Navigator.pop(context, 'saved');
+              if (_firstNameController.text.isEmpty ||
+                  _lastNameController.text.isEmpty ||
+                  _emailController.text.isEmpty ||
+                  _countryController.text.isEmpty ||
+                  _descriptionController.text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Semua field wajib diisi')),
+                );
+              } else {
+                Navigator.pop(context, 'saved');
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.grey[100],
@@ -388,7 +424,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildTextField(String label, {int maxLines = 1}) {
+  Widget _buildTextField(
+    String label,
+    TextEditingController controller, {
+    int maxLines = 1,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -398,6 +438,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         const SizedBox(height: 8),
         TextField(
+          controller: controller,
           maxLines: maxLines,
           decoration: InputDecoration(
             border: OutlineInputBorder(
