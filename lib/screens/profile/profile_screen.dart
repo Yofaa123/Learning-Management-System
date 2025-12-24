@@ -115,6 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             // Tab Content
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              alignment: Alignment.centerLeft,
               child: _buildTabContent(),
             ),
 
