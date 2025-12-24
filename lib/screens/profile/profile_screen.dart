@@ -241,12 +241,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } else if (_selectedTabIndex == 1) {
       return _buildClassList();
     } else {
-      return const Center(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Text("Halaman Edit Profile Belum Tersedia"),
-        ),
-      );
+      return _buildEditProfileForm();
     }
   }
 
@@ -351,6 +346,73 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildEditProfileForm() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildTextField("Nama Pertama", maxLines: 1),
+        const SizedBox(height: 15),
+        _buildTextField("Nama Terakhir", maxLines: 1),
+        const SizedBox(height: 15),
+        _buildTextField("E-mail Address", maxLines: 1),
+        const SizedBox(height: 15),
+        _buildTextField("Negara", maxLines: 1),
+        const SizedBox(height: 15),
+        _buildTextField("Deskripsi", maxLines: 5),
+        const SizedBox(height: 20),
+        Align(
+          alignment: Alignment.centerRight,
+          child: ElevatedButton(
+            onPressed: () {
+              // Handle save action
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.grey[100],
+              foregroundColor: Colors.black,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+            ),
+            child: const Text("Simpan"),
+          ),
+        ),
+        const SizedBox(height: 20),
+      ],
+    );
+  }
+
+  Widget _buildTextField(String label, {int maxLines = 1}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+        ),
+        const SizedBox(height: 8),
+        TextField(
+          maxLines: maxLines,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 15,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
