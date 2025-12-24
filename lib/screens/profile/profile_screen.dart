@@ -117,57 +117,81 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                   ),
-                  // Tab Card
-                  Positioned(
-                    top: topPadding + 260,
-                    left: 25,
-                    right: 25,
+                ],
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: () => setState(() => _selectedTabIndex = 0),
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 25,
-                        horizontal: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.15),
-                            blurRadius: 15,
-                            offset: const Offset(0, 5),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buildTabItem("About Me", 0),
-                          _buildTabItem("Kelas", 1),
-                          _buildTabItem("Edit Profile", 2),
-                        ],
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      color: _selectedTabIndex == 0
+                          ? Colors.white
+                          : Colors.grey[200],
+                      child: const Center(
+                        child: Text(
+                          "About Me",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () => setState(() => _selectedTabIndex = 1),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      color: _selectedTabIndex == 1
+                          ? Colors.white
+                          : Colors.grey[200],
+                      child: const Center(
+                        child: Text(
+                          "Kelas",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () => setState(() => _selectedTabIndex = 2),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      color: _selectedTabIndex == 2
+                          ? Colors.white
+                          : Colors.grey[200],
+                      child: const Center(
+                        child: Text(
+                          "Edit Profile",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             Expanded(
               child: Container(
                 color: Colors.white,
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      // Tab Content
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 10,
-                        ),
-                        alignment: Alignment.centerLeft,
-                        child: _buildTabContent(),
-                      ),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30,
+                      vertical: 10,
+                    ),
+                    child: IndexedStack(
+                      index: _selectedTabIndex,
+                      children: [
+                        _buildAboutMe(),
+                        _buildKelas(),
+                        _buildEditProfileForm(),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -179,105 +203,72 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildTabItem(String title, int index) {
-    bool isSelected = _selectedTabIndex == index;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedTabIndex = index;
-        });
-      },
-      child: Column(
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              color: Colors.black87,
-            ),
-          ),
-          const SizedBox(height: 5),
-          if (isSelected) Container(height: 3, width: 40, color: Colors.grey),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTabContent() {
-    if (_selectedTabIndex == 0) {
-      String email = namaUser.isEmpty
-          ? "pengguna@gmail.com"
-          : "${namaUser.toLowerCase().replaceAll(' ', '')}@gmail.com";
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "Informasi User",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          ),
-          const SizedBox(height: 20),
-          _buildInfoItem("Email address", email),
-          _buildInfoItem("Program Studi", "D4 Teknologi Rekayasa Multimedia"),
-          _buildInfoItem("Fakultas", "FIT"),
-          const SizedBox(height: 30),
-          const Text(
-            "Aktivitas Login",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          ),
-          const SizedBox(height: 20),
-          _buildInfoItem(
-            "First access to site",
-            "Monday, 7 September 2020, 9:27 AM  (288 days 12 hours)",
-          ),
-          _buildInfoItem(
-            "Last access to site",
-            "Tuesday, 22 June 2021, 9:44 PM  (now)",
-          ),
-          const SizedBox(height: 30),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 40.0),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
-                    ),
-                    (route) => false,
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff9e2a2b),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 12,
-                  ),
+  Widget _buildAboutMe() {
+    String email = namaUser.isEmpty
+        ? "pengguna@gmail.com"
+        : "${namaUser.toLowerCase().replaceAll(' ', '')}@gmail.com";
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Informasi User",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+        const SizedBox(height: 20),
+        _buildInfoItem("Email address", email),
+        _buildInfoItem("Program Studi", "D4 Teknologi Rekayasa Multimedia"),
+        _buildInfoItem("Fakultas", "FIT"),
+        const SizedBox(height: 30),
+        const Text(
+          "Aktivitas Login",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+        const SizedBox(height: 20),
+        _buildInfoItem(
+          "First access to site",
+          "Monday, 7 September 2020, 9:27 AM  (288 days 12 hours)",
+        ),
+        _buildInfoItem(
+          "Last access to site",
+          "Tuesday, 22 June 2021, 9:44 PM  (now)",
+        ),
+        const SizedBox(height: 30),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 40.0),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  (route) => false,
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff9e2a2b),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                icon: const Icon(Icons.exit_to_app, color: Colors.white),
-                label: const Text(
-                  'Log Out',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
+              ),
+              icon: const Icon(Icons.exit_to_app, color: Colors.white),
+              label: const Text(
+                'Log Out',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
             ),
           ),
-        ],
-      );
-    } else if (_selectedTabIndex == 1) {
-      return _buildClassList();
-    } else {
-      return _buildEditProfileForm();
-    }
+        ),
+      ],
+    );
   }
 
   Widget _buildInfoItem(String title, String value) {
@@ -304,7 +295,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildClassList() {
+  Widget _buildKelas() {
     final List<Map<String, String>> classes = [
       {
         "title": "BAHASA INGGRIS: BUSINESS AND SCIENTIFIC D4SM-41-GAB1 [ARS]",
