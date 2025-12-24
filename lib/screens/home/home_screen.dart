@@ -16,97 +16,54 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   late String userName;
 
+  late final List<Widget> _pages;
+
   @override
   void initState() {
     super.initState();
     userName = widget.initialUserName;
+    _pages = [
+      // We will define the Home content widget in the build method or as a separate widget wrapper
+      // to access 'context' and 'userName' easily if needed, but for now let's use a setup where
+      // index 0 renders the home content methods.
+      // Actually, since ClassScreen and NotificationScreen are separate widgets, we can just instantiate them.
+      // To keep Home content clean, I will wrap it in a pseudo-widget or just handle it in build.
+      const SizedBox(), // Placeholder for Home, handled in build
+      const ClassScreen(),
+      const NotificationScreen(),
+    ];
   }
 
   void _onItemTapped(int index) {
-    if (index == 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const ClassScreen()),
-      );
-    } else if (index == 2) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const NotificationScreen()),
-      );
-    } else {
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    // We dynamically build the body.
+    // For index 0, we build the home content.
+    // For others, we return the pre-defined widgets or builders.
+    
+    Widget bodyContent;
+    if (_selectedIndex == 0) {
+      bodyContent = _buildHomeContent(context);
+    } else if (_selectedIndex == 1) {
+      bodyContent = const ClassScreen();
+    } else {
+      bodyContent = NotificationScreen(
+        onBack: () {
+          setState(() {
+            _selectedIndex = 0;
+          });
+        },
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildHeader(context),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Tugas Yang Akan Datang',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  _buildTaskCard(),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Pengumuman Terakhir',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const AnnouncementScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          'Lihat Semua',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.blueAccent,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  _buildAnnouncementSection(),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Progres Kelas',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  _buildClassProgressList(),
-                  const SizedBox(height: 80), // For bottom nav bar space
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: bodyContent,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
@@ -142,6 +99,72 @@ class _HomeScreenState extends State<HomeScreen> {
             type: BottomNavigationBarType.fixed,
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildHomeContent(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _buildHeader(context),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                const Text(
+                  'Tugas Yang Akan Datang',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                _buildTaskCard(),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Pengumuman Terakhir',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AnnouncementScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Lihat Semua',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                _buildAnnouncementSection(),
+                const SizedBox(height: 20),
+                const Text(
+                  'Progres Kelas',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                _buildClassProgressList(),
+                const SizedBox(height: 80), // For bottom nav bar space
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

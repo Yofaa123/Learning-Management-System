@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class NotificationScreen extends StatelessWidget {
-  const NotificationScreen({super.key});
+  final VoidCallback? onBack;
+
+  const NotificationScreen({super.key, this.onBack});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,13 @@ class NotificationScreen extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            if (onBack != null) {
+              onBack!();
+            } else {
+              Navigator.pop(context);
+            }
+          },
         ),
       ),
       body: ListView(

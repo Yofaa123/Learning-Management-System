@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../widgets/class_progress_item.dart';
-import '../notification/notification_screen.dart';
 
 class ClassScreen extends StatefulWidget {
   const ClassScreen({super.key});
@@ -10,22 +9,6 @@ class ClassScreen extends StatefulWidget {
 }
 
 class _ClassScreenState extends State<ClassScreen> {
-  final int _selectedIndex = 1; // "Kelas Saya" is index 1
-
-  void _onItemTapped(int index) {
-    if (index == 0) {
-      // Navigate back to Home
-      Navigator.pop(context);
-    } else if (index == 1) {
-      // Already on Class Screen
-    } else if (index == 2) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const NotificationScreen()),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,10 +24,7 @@ class _ClassScreenState extends State<ClassScreen> {
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false, // Remove automatic back button
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -102,44 +82,8 @@ class _ClassScreenState extends State<ClassScreen> {
                 progress: 50,
                 imagePath: 'assets/images/olahraga.jpg',
               ),
-              const SizedBox(height: 80), // Space for bottom nav
+              const SizedBox(height: 80), 
             ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30.0),
-            topRight: Radius.circular(30.0),
-          ),
-          boxShadow: [
-            BoxShadow(color: Colors.black12, spreadRadius: 5, blurRadius: 10),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30.0),
-            topRight: Radius.circular(30.0),
-          ),
-          child: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.school),
-                label: 'Kelas Saya',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.notifications),
-                label: 'Notifikasi',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white70,
-            backgroundColor: const Color(0xFFBC4B4B),
-            onTap: _onItemTapped,
-            type: BottomNavigationBarType.fixed,
           ),
         ),
       ),
