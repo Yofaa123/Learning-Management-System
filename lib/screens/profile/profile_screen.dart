@@ -195,6 +195,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildTabContent() {
     if (_selectedTabIndex == 0) {
+      String email = widget.namaUser.isEmpty
+          ? "pengguna@gmail.com"
+          : "${widget.namaUser.toLowerCase().replaceAll(' ', '')}@gmail.com";
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -203,10 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           const SizedBox(height: 20),
-          _buildInfoItem(
-            "Email address",
-            "dandycandra@365.telkomuniversity.ac.id",
-          ),
+          _buildInfoItem("Email address", email),
           _buildInfoItem("Program Studi", "D4 Teknologi Rekayasa Multimedia"),
           _buildInfoItem("Fakultas", "FIT"),
           const SizedBox(height: 30),
