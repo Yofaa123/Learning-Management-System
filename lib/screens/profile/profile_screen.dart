@@ -239,12 +239,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       );
     } else if (_selectedTabIndex == 1) {
-      return const Center(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Text("Halaman Kelas Belum Tersedia"),
-        ),
-      );
+      return _buildClassList();
     } else {
       return const Center(
         child: Padding(
@@ -272,6 +267,86 @@ class _ProfileScreenState extends State<ProfileScreen> {
               fontSize: 15,
               color: Colors.black,
               fontWeight: FontWeight.normal,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildClassList() {
+    final List<Map<String, String>> classes = [
+      {
+        "title": "BAHASA INGGRIS: BUSINESS AND SCIENTIFIC D4SM-41-GAB1 [ARS]",
+        "date": "Tanggal Mulai Monday, 8 February 2021"
+      },
+      {
+        "title": "DESAIN ANTARMUKA & PENGALAMAN PENGGUNA D4SM-42-03 [ADY]",
+        "date": "Tanggal Mulai Monday, 8 February 2021"
+      },
+      {
+        "title": "KEWARGANEGARAAN D4SM-41-GAB1 [BBO]. JUMAT 2",
+        "date": "Tanggal Mulai Monday, 8 February 2021"
+      },
+      {
+        "title": "OLAH RAGA D3TT-44-02 [EYR]",
+        "date": "Tanggal Mulai Monday, 8 February 2021"
+      },
+      {
+        "title": "PEMROGRAMAN MULTIMEDIA INTERAKTIF D4SM-43-04 [TPR]",
+        "date": "Tanggal Mulai Monday, 8 February 2021"
+      },
+      {
+        "title":
+            "PEMROGRAMAN PERANGKAT BERGERAK MULTIMEDIA D4SM-41-GAB1 [APJ]",
+        "date": "Tanggal Mulai Monday, 8 February 2021"
+      },
+      {
+        "title": "SISTEM OPERASI D4SM-44-02 [DDS]",
+        "date": "Tanggal Mulai Monday, 8 February 2021"
+      },
+    ];
+
+    return Column(
+      children: classes.map((item) {
+        return _buildClassItem(item['title']!, item['date']!);
+      }).toList(),
+    );
+  }
+
+  Widget _buildClassItem(String title, String subtitle) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 80,
+            height: 50,
+            decoration: BoxDecoration(
+              color: const Color(0xFF7CAFCF).withOpacity(0.9),
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          const SizedBox(width: 15),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  subtitle,
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+              ],
             ),
           ),
         ],
