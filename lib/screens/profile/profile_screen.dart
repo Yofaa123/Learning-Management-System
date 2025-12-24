@@ -5,7 +5,8 @@ import '../class/class_screen.dart';
 import '../notification/notification_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  final String namaUser;
+  const ProfileScreen({super.key, required this.namaUser});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -35,7 +36,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.white, size: 28),
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: 28,
+                        ),
                         onPressed: () => Navigator.pop(context),
                       ),
                     ],
@@ -51,7 +56,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 110,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(color: Colors.red.shade900, width: 3),
+                          border: Border.all(
+                            color: Colors.red.shade900,
+                            width: 3,
+                          ),
                           image: const DecorationImage(
                             image: AssetImage('assets/images/profile.jpg'),
                             fit: BoxFit.cover,
@@ -59,8 +67,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       const SizedBox(height: 15),
-                      const Text(
-                        'DANDY CANDRA PRATAMA',
+                      Text(
+                        widget.namaUser.isEmpty
+                            ? 'Pengguna'
+                            : widget.namaUser.toUpperCase(),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -73,7 +83,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 // Tab Card
                 Container(
                   margin: const EdgeInsets.only(top: 260, left: 25, right: 25),
-                  padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 25,
+                    horizontal: 10,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
@@ -96,9 +109,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
-            
+
             const SizedBox(height: 20),
-            
+
             // Tab Content
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -116,7 +129,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onPressed: () {
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => const LoginScreen()),
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
                       (route) => false,
                     );
                   },
@@ -125,15 +140,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
                   ),
-                  icon: const Icon(Icons.exit_to_app, color: Colors.white), // Using exit_to_app as logout icon replacement
+                  icon: const Icon(
+                    Icons.exit_to_app,
+                    color: Colors.white,
+                  ), // Using exit_to_app as logout icon replacement
                   label: const Text(
                     'Log Out',
                     style: TextStyle(
-                        color: Colors.white, 
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
                     ),
                   ),
                 ),
@@ -165,12 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           const SizedBox(height: 5),
-          if (isSelected)
-            Container(
-              height: 3,
-              width: 40,
-              color: Colors.grey,
-            ),
+          if (isSelected) Container(height: 3, width: 40, color: Colors.grey),
         ],
       ),
     );
@@ -181,28 +197,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Informasi User", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          const Text(
+            "Informasi User",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
           const SizedBox(height: 20),
-          _buildInfoItem("Email address", "dandycandra@365.telkomuniversity.ac.id"),
+          _buildInfoItem(
+            "Email address",
+            "dandycandra@365.telkomuniversity.ac.id",
+          ),
           _buildInfoItem("Program Studi", "D4 Teknologi Rekayasa Multimedia"),
           _buildInfoItem("Fakultas", "FIT"),
           const SizedBox(height: 30),
-          const Text("Aktivitas Login", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          const Text(
+            "Aktivitas Login",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
           const SizedBox(height: 20),
-          _buildInfoItem("First access to site", "Monday, 7 September 2020, 9:27 AM  (288 days 12 hours)"),
-          _buildInfoItem("Last access to site", "Tuesday, 22 June 2021, 9:44 PM  (now)"),
+          _buildInfoItem(
+            "First access to site",
+            "Monday, 7 September 2020, 9:27 AM  (288 days 12 hours)",
+          ),
+          _buildInfoItem(
+            "Last access to site",
+            "Tuesday, 22 June 2021, 9:44 PM  (now)",
+          ),
         ],
       );
     } else if (_selectedTabIndex == 1) {
-      return const Center(child: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Text("Halaman Kelas Belum Tersedia"),
-      ));
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Text("Halaman Kelas Belum Tersedia"),
+        ),
+      );
     } else {
-      return const Center(child: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Text("Halaman Edit Profile Belum Tersedia"),
-      ));
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Text("Halaman Edit Profile Belum Tersedia"),
+        ),
+      );
     }
   }
 
@@ -212,9 +247,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: const TextStyle(fontSize: 14, color: Colors.black87)),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 14, color: Colors.black87),
+          ),
           const SizedBox(height: 5),
-          Text(value, style: const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.normal)),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 15,
+              color: Colors.black,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
         ],
       ),
     );
@@ -240,8 +285,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Kelas Saya'),
-            BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifikasi'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.school),
+              label: 'Kelas Saya',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.notifications),
+              label: 'Notifikasi',
+            ),
           ],
           currentIndex: 0,
           selectedItemColor: Colors.white, // Active item
@@ -252,9 +303,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (index == 0) {
               Navigator.pop(context); // Go back to Home
             } else if (index == 1) {
-               Navigator.push(context, MaterialPageRoute(builder: (context) => const ClassScreen()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ClassScreen()),
+              );
             } else if (index == 2) {
-               Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationScreen()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationScreen(),
+                ),
+              );
             }
           },
         ),
