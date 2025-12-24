@@ -180,7 +180,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       builder: (context) =>
                           ProfileScreen(namaUser: widget.userName),
                     ),
-                  );
+                  ).then((result) {
+                    if (result == 'saved') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Perubahan berhasil disimpan'),
+                          duration: Duration(seconds: 3),
+                        ),
+                      );
+                    }
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xff9e2a2b),
