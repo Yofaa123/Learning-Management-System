@@ -52,7 +52,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final topPadding = MediaQuery.of(context).padding.top;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -63,17 +62,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
         body: Column(
           children: [
             Container(
-              height: 300 + topPadding,
+              height: MediaQuery.of(context).size.height * 0.32,
               width: double.infinity,
               color: const Color(0xFFBC4B4B),
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
               child: Stack(
                 clipBehavior: Clip.none,
-                alignment: Alignment.center,
                 children: [
-                  // Red Background Header
+                  // Back Button
                   Positioned(
-                    top: topPadding + 50,
-                    left: 20,
+                    top: MediaQuery.of(context).padding.top + 8,
+                    left: 16,
                     child: IconButton(
                       icon: const Icon(
                         Icons.arrow_back,
@@ -84,9 +83,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   // Profile Info
-                  Positioned(
-                    top: topPadding + 70,
+                  Center(
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
                           width: 110,
