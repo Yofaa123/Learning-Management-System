@@ -4,6 +4,8 @@ import '../auth/login_screen.dart';
 import '../class/class_screen.dart';
 import '../notification/notification_screen.dart';
 
+import 'package:flutter/services.dart';
+
 class ProfileScreen extends StatefulWidget {
   final String namaUser;
   const ProfileScreen({super.key, required this.namaUser});
@@ -17,8 +19,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+      ),
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -82,7 +90,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 // Tab Card
                 Container(
-                  margin: const EdgeInsets.only(top: 260, left: 25, right: 25),
+                  margin: const EdgeInsets.only(
+                    top: 260,
+                    left: 25,
+                    right: 25,
+                  ),
                   padding: const EdgeInsets.symmetric(
                     vertical: 25,
                     horizontal: 10,
@@ -165,6 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       bottomNavigationBar: _buildBottomNavBar(context),
+    ),
     );
   }
 
