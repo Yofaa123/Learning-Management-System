@@ -27,157 +27,160 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
-              clipBehavior: Clip.none,
-              alignment: Alignment.center,
-              children: [
-                // Red Background Header
-                Container(
-                  height: 300,
-                  width: double.infinity,
-                  color: const Color(0xFFBC4B4B),
-                  padding: const EdgeInsets.only(top: 50, left: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                          size: 28,
-                        ),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
-                  ),
-                ),
-                // Profile Info
-                Positioned(
-                  top: 70,
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 110,
-                        height: 110,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.red.shade900,
-                            width: 3,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Stack(
+                clipBehavior: Clip.none,
+                alignment: Alignment.center,
+                children: [
+                  // Red Background Header
+                  Container(
+                    height: 300,
+                    width: double.infinity,
+                    color: const Color(0xFFBC4B4B),
+                    padding: const EdgeInsets.only(top: 50, left: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: 28,
                           ),
-                          image: const DecorationImage(
-                            image: AssetImage('assets/images/profile.jpg'),
-                            fit: BoxFit.cover,
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Profile Info
+                  Positioned(
+                    top: 70,
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 110,
+                          height: 110,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.red.shade900,
+                              width: 3,
+                            ),
+                            image: const DecorationImage(
+                              image: AssetImage('assets/images/profile.jpg'),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 15),
-                      Text(
-                        widget.namaUser.isEmpty
-                            ? 'Pengguna'
-                            : widget.namaUser.toUpperCase(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                        const SizedBox(height: 15),
+                        Text(
+                          widget.namaUser.isEmpty
+                              ? 'Pengguna'
+                              : widget.namaUser.toUpperCase(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                // Tab Card
-                Container(
-                  margin: const EdgeInsets.only(
-                    top: 260,
-                    left: 25,
-                    right: 25,
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 25,
-                    horizontal: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        blurRadius: 15,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildTabItem("About Me", 0),
-                      _buildTabItem("Kelas", 1),
-                      _buildTabItem("Edit Profile", 2),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 20),
-
-            // Tab Content
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              alignment: Alignment.centerLeft,
-              child: _buildTabContent(),
-            ),
-
-            const SizedBox(height: 10),
-
-            // Logout Button
-            Padding(
-              padding: const EdgeInsets.only(right: 30.0, bottom: 40.0),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
-                      ),
-                      (route) => false,
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff9e2a2b),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                  // Tab Card
+                  Container(
+                    margin: const EdgeInsets.only(
+                      top: 260,
+                      left: 25,
+                      right: 25,
                     ),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
+                      vertical: 25,
+                      horizontal: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 15,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildTabItem("About Me", 0),
+                        _buildTabItem("Kelas", 1),
+                        _buildTabItem("Edit Profile", 2),
+                      ],
                     ),
                   ),
-                  icon: const Icon(
-                    Icons.exit_to_app,
-                    color: Colors.white,
-                  ), // Using exit_to_app as logout icon replacement
-                  label: const Text(
-                    'Log Out',
-                    style: TextStyle(
+                ],
+              ),
+
+              const SizedBox(height: 20),
+
+              // Tab Content
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30,
+                  vertical: 10,
+                ),
+                alignment: Alignment.centerLeft,
+                child: _buildTabContent(),
+              ),
+
+              const SizedBox(height: 10),
+
+              // Logout Button
+              Padding(
+                padding: const EdgeInsets.only(right: 30.0, bottom: 40.0),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                        (route) => false,
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff9e2a2b),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
+                    ),
+                    icon: const Icon(
+                      Icons.exit_to_app,
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                    ), // Using exit_to_app as logout icon replacement
+                    label: const Text(
+                      'Log Out',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        bottomNavigationBar: _buildBottomNavBar(context),
       ),
-      bottomNavigationBar: _buildBottomNavBar(context),
-    ),
     );
   }
 
@@ -273,32 +276,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final List<Map<String, String>> classes = [
       {
         "title": "BAHASA INGGRIS: BUSINESS AND SCIENTIFIC D4SM-41-GAB1 [ARS]",
-        "date": "Tanggal Mulai Monday, 8 February 2021"
+        "date": "Tanggal Mulai Monday, 8 February 2021",
       },
       {
         "title": "DESAIN ANTARMUKA & PENGALAMAN PENGGUNA D4SM-42-03 [ADY]",
-        "date": "Tanggal Mulai Monday, 8 February 2021"
+        "date": "Tanggal Mulai Monday, 8 February 2021",
       },
       {
         "title": "KEWARGANEGARAAN D4SM-41-GAB1 [BBO]. JUMAT 2",
-        "date": "Tanggal Mulai Monday, 8 February 2021"
+        "date": "Tanggal Mulai Monday, 8 February 2021",
       },
       {
         "title": "OLAH RAGA D3TT-44-02 [EYR]",
-        "date": "Tanggal Mulai Monday, 8 February 2021"
+        "date": "Tanggal Mulai Monday, 8 February 2021",
       },
       {
         "title": "PEMROGRAMAN MULTIMEDIA INTERAKTIF D4SM-43-04 [TPR]",
-        "date": "Tanggal Mulai Monday, 8 February 2021"
+        "date": "Tanggal Mulai Monday, 8 February 2021",
       },
       {
-        "title":
-            "PEMROGRAMAN PERANGKAT BERGERAK MULTIMEDIA D4SM-41-GAB1 [APJ]",
-        "date": "Tanggal Mulai Monday, 8 February 2021"
+        "title": "PEMROGRAMAN PERANGKAT BERGERAK MULTIMEDIA D4SM-41-GAB1 [APJ]",
+        "date": "Tanggal Mulai Monday, 8 February 2021",
       },
       {
         "title": "SISTEM OPERASI D4SM-44-02 [DDS]",
-        "date": "Tanggal Mulai Monday, 8 February 2021"
+        "date": "Tanggal Mulai Monday, 8 February 2021",
       },
     ];
 
@@ -367,7 +369,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           alignment: Alignment.centerRight,
           child: ElevatedButton(
             onPressed: () {
-              // Handle save action
+              Navigator.pop(context, 'saved');
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.grey[100],
