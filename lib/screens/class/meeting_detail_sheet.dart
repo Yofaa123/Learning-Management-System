@@ -126,28 +126,39 @@ class _MeetingDetailSheetState extends State<MeetingDetailSheet> with SingleTick
   }
 
   Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Placeholder for the illustration
-          Image.asset(
-            'assets/images/tugas_kuis.png',
-            height: 200,
-            width: 200,
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            "Tidak Ada Tugas Dan Kuis Hari Ini",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                   Image.asset(
+                    'assets/images/tugas_kuis.png',
+                    height: 200,
+                    width: 200,
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    "Tidak Ada Tugas Dan Kuis Hari Ini",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 50),
+                ],
+              ),
             ),
           ),
-          const SizedBox(height: 50), // Spacing to lift it up slightly
-        ],
-      ),
+        );
+      },
     );
   }
 
