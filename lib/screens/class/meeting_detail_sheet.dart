@@ -131,19 +131,10 @@ class _MeetingDetailSheetState extends State<MeetingDetailSheet> with SingleTick
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Placeholder for the illustration
-          // TODO: Replace with actual asset: Image.asset('assets/images/ilustrasi_kosong.png')
-          Container(
+          Image.asset(
+            'assets/images/tugas_kuis.png',
             height: 200,
             width: 200,
-            decoration: const BoxDecoration(
-              // color: Colors.grey[100],
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.weekend, // Playful icon representing 'relaxing' like the image
-              size: 100,
-              color: Colors.red[100],
-            ),
           ),
           const SizedBox(height: 20),
           const Text(
