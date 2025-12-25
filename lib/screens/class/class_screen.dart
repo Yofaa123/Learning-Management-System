@@ -3,8 +3,13 @@ import '../../widgets/class_progress_item.dart';
 
 class ClassScreen extends StatefulWidget {
   final Function(String) onClassTap;
+  final VoidCallback? onBack;
 
-  const ClassScreen({super.key, required this.onClassTap});
+  const ClassScreen({
+    super.key,
+    required this.onClassTap,
+    this.onBack,
+  });
 
   @override
   State<ClassScreen> createState() => _ClassScreenState();
@@ -26,7 +31,16 @@ class _ClassScreenState extends State<ClassScreen> {
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        automaticallyImplyLeading: false, // Remove automatic back button
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            if (widget.onBack != null) {
+              widget.onBack!();
+            } else {
+              Navigator.pop(context);
+            }
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(

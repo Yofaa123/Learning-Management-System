@@ -56,6 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
               _selectedClassTitle = title;
             });
           },
+          onBack: () {
+            setState(() {
+              _selectedIndex = 0;
+            });
+          },
         );
       }
     } else {
