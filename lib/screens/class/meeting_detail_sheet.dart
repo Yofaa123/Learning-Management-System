@@ -174,6 +174,7 @@ class _MeetingDetailSheetState extends State<MeetingDetailSheet> with SingleTick
     ];
 
     return ListView.builder(
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(20),
       itemCount: items.length,
       itemBuilder: (context, index) {
