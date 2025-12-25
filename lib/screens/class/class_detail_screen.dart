@@ -246,18 +246,18 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
           isDone: true,
           isGrey: true,
           onTap: () {
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              backgroundColor: Colors.transparent,
-              builder: (context) => DraggableScrollableSheet(
-                initialChildSize: 0.9,
-                minChildSize: 0.5,
-                maxChildSize: 0.95,
-                 builder: (_, controller) {
-                  return MeetingDetailSheet(scrollController: controller);
-                },
-              ),
+            _showMeetingDetail(
+              title: "Pengantar User Interface Design",
+              description: "Antarmuka yang dibangun harus memperhatikan prinsip-prinsip desain yang ada. Hal ini diharapkan agar antarmuka yang dibangun bukan hanya menarik secara visual tetapi dengan memperhatikan kaidah-kaidah prinsip desain diharapkan akan mendukung pengguna dalam menggunakan produk secara baik. Pelajaran mengenai prinsip UID ini sudah pernah diajarkan dalam mata kuliah Implementasi Desain Antarmuka Pengguna tetap pada matakuliah ini akan direview kembali sehingga dapat menjadi bekal saat memasukki materi mengenai User Experience",
+              attachments: [
+                {"icon": Icons.link, "title": "Zoom Meeting Syncronous", "checked": true},
+                {"icon": Icons.description_outlined, "title": "Pengantar User Interface Design", "checked": true},
+                {"icon": Icons.description_outlined, "title": "Empat Teori Dasar Antarmuka Pengguna", "checked": true},
+                {"icon": Icons.description_outlined, "title": "Empat Teori Dasar Antarmuka Pengguna", "checked": true},
+                {"icon": Icons.video_camera_back_outlined, "title": "User Interface Design for Beginner", "checked": true},
+                {"icon": Icons.link, "title": "20 Prinsip Desain", "checked": true},
+                {"icon": Icons.link, "title": "Best Practice UI Design", "checked": true},
+              ],
             );
           },
         ),
@@ -266,6 +266,19 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
           title: "02 - Konsep User Interface Design",
           subtitle: "2 URLs, 1 Kuis, 3 Files, 1 Tugas",
           isDone: true,
+          onTap: () {
+            _showMeetingDetail(
+              title: "Konsep User Interface Design",
+              description: "Konsep dasar User Interface Design akan dipelajari bagaimana membangun sebuah Interaction Design pada antarmuka. Interaction ini sangat penting untuk aplikasi berkomunikasi dengan pengguna. Lalu dipelajari juga poin-poin penting pada interaction design seperti visibility, feedback, limitation, consistency dan affordance. Dan terakhir materi conceptual dan perceptual design interaction akan memberikan gambaran bagaimana bentuk dari Interaction.",
+              attachments: [
+                {"icon": Icons.link, "title": "Zoom Meeting Syncronous", "checked": true},
+                {"icon": Icons.description_outlined, "title": "Elemen-elemen Antarmuka Pengguna", "checked": true},
+                {"icon": Icons.description_outlined, "title": "UID Guidelines and Principles", "checked": true},
+                {"icon": Icons.description_outlined, "title": "User Profile", "checked": true},
+                {"icon": Icons.link, "title": "Principles of User Interface DesignURL", "checked": true},
+              ],
+            );
+          },
         ),
         _buildMeetingItem(
           meeting: "Pertemuan 3",
@@ -369,6 +382,31 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showMeetingDetail({
+    required String title,
+    required String description,
+    required List<Map<String, dynamic>> attachments,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.9,
+        minChildSize: 0.5,
+        maxChildSize: 0.95,
+        builder: (_, controller) {
+          return MeetingDetailSheet(
+            scrollController: controller,
+            title: title,
+            description: description,
+            attachments: attachments,
+          );
+        },
       ),
     );
   }

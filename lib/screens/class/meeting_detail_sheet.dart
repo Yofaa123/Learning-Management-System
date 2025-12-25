@@ -2,7 +2,17 @@ import 'package:flutter/material.dart';
 
 class MeetingDetailSheet extends StatefulWidget {
   final ScrollController? scrollController;
-  const MeetingDetailSheet({super.key, this.scrollController});
+  final String title;
+  final String description;
+  final List<Map<String, dynamic>> attachments;
+
+  const MeetingDetailSheet({
+    super.key, 
+    this.scrollController,
+    required this.title,
+    required this.description,
+    required this.attachments,
+  });
 
   @override
   State<MeetingDetailSheet> createState() => _MeetingDetailSheetState();
@@ -50,12 +60,12 @@ class _MeetingDetailSheetState extends State<MeetingDetailSheet> with SingleTick
           ),
           const SizedBox(height: 20),
           // Title
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(
-              "Pengantar User Interface Design",
+              widget.title,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -82,9 +92,9 @@ class _MeetingDetailSheetState extends State<MeetingDetailSheet> with SingleTick
                           ),
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                          "Antarmuka yang dibangun harus memperhatikan prinsip-prinsip desain yang ada. Hal ini diharapkan agar antarmuka yang dibangun bukan hanya menarik secara visual tetapi dengan memperhatikan kaidah-kaidah prinsip desain diharapkan akan mendukung pengguna dalam menggunakan produk secara baik. Pelajaran mengenai prinsip UID ini sudah pernah diajarkan dalam mata kuliah Implementasi Desain Antarmuka Pengguna tetap pada matakuliah ini akan direview kembali sehingga dapat menjadi bekal saat memasukki materi mengenai User Experience",
-                          style: TextStyle(fontSize: 12, height: 1.5, color: Colors.black87),
+                        Text(
+                          widget.description,
+                          style: const TextStyle(fontSize: 12, height: 1.5, color: Colors.black87),
                           textAlign: TextAlign.justify,
                         ),
                         const SizedBox(height: 20),
@@ -163,25 +173,12 @@ class _MeetingDetailSheetState extends State<MeetingDetailSheet> with SingleTick
   }
 
   Widget _buildLampiranList() {
-    final List<Map<String, dynamic>> items = [
-      {"icon": Icons.link, "title": "Zoom Meeting Syncronous", "checked": true},
-      {"icon": Icons.description_outlined, "title": "Pengantar User Interface Design", "checked": true}, // Assuming grey check is handled by color logic or just checking
-      {"icon": Icons.description_outlined, "title": "Empat Teori Dasar Antarmuka Pengguna", "checked": true},
-      {"icon": Icons.description_outlined, "title": "Empat Teori Dasar Antarmuka Pengguna", "checked": true},
-      {"icon": Icons.video_camera_back_outlined, "title": "User Interface Design for Beginner", "checked": true},
-      {"icon": Icons.link, "title": "20 Prinsip Desain", "checked": true},
-      {"icon": Icons.link, "title": "Best Practice UI Design", "checked": true},
-    ];
-
     return ListView.builder(
       physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(20),
-      itemCount: items.length,
+      itemCount: widget.attachments.length,
       itemBuilder: (context, index) {
-        final item = items[index];
-        bool isGrey = index == 1 || index == 2; // Mimicking the visual where some checks might look different, or default to green. Image shows all grey except maybe one? Wait, image shows GREEN checks for all items except maybe the 2nd one which looks slightly different or just green. Actually they look mostly green in the provided image. Let's make them green.
-        // Re-looking at iamge: It seems all are green checks.
-        
+        final item = widget.attachments[index];
         return Container(
           margin: const EdgeInsets.only(bottom: 12),
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
