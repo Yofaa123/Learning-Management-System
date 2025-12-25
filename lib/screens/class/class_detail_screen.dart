@@ -277,6 +277,22 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
                 {"icon": Icons.description_outlined, "title": "User Profile", "checked": true},
                 {"icon": Icons.link, "title": "Principles of User Interface DesignURL", "checked": true},
               ],
+              tasks: [
+                {
+                  "type": "quiz",
+                  "title": "Quiz Review 01",
+                  "status": "done",
+                  "check_color": "green",
+                  "description": "Silahkan kerjakan kuis ini dalam waktu 15 menit sebagai nilai pertama komponen kuis. Jangan lupa klik tombol Submit Answer setelah menjawab seluruh pertanyaan. Kerjakan sebelum hari Jum'at, 26 Februari 2021 jam 23:59 WIB.",
+                },
+                {
+                  "type": "assignment",
+                  "title": "Tugas 01 - UID Android Mobile Game",
+                  "status": "done",
+                  "check_color": "grey",
+                  "description": "1. Buatlah desain tampilan (antarmuka) pada aplikasi mobile game FPS (First Person Shooter) yang akan menjadi tugas pada mata kuliah Pemrograman Aplikasi Permainan.\n2. Desain yang dibuat harus melingkupi seluruh tampilan pada aplikasi/game, dari pertama kali aplikasi ....................",
+                },
+              ],
             );
           },
         ),
@@ -390,6 +406,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
     required String title,
     required String description,
     required List<Map<String, dynamic>> attachments,
+    List<Map<String, dynamic>>? tasks,
   }) {
     showModalBottomSheet(
       context: context,
@@ -405,6 +422,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
             title: title,
             description: description,
             attachments: attachments,
+            tasks: tasks,
           );
         },
       ),

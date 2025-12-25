@@ -5,6 +5,7 @@ class MeetingDetailSheet extends StatefulWidget {
   final String title;
   final String description;
   final List<Map<String, dynamic>> attachments;
+  final List<Map<String, dynamic>>? tasks;
 
   const MeetingDetailSheet({
     super.key, 
@@ -12,6 +13,7 @@ class MeetingDetailSheet extends StatefulWidget {
     required this.title,
     required this.description,
     required this.attachments,
+    this.tasks,
   });
 
   @override
@@ -123,7 +125,9 @@ class _MeetingDetailSheetState extends State<MeetingDetailSheet> with SingleTick
                     controller: _tabController,
                     children: [
                       _buildLampiranList(),
-                      _buildEmptyState(),
+                      (widget.tasks != null && widget.tasks!.isNotEmpty)
+                          ? _buildTaskList()
+                          : _buildEmptyState(),
                     ],
                    ),
                 )
@@ -208,6 +212,106 @@ class _MeetingDetailSheetState extends State<MeetingDetailSheet> with SingleTick
               if (item['checked'])
                  const Icon(Icons.check_circle, color: Color(0xFF2ECC71), size: 24),
             ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildTaskList() {
+    return ListView.builder(
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(20),
+      itemCount: widget.tasks!.length,
+      itemBuilder: (context, index) {
+        final task = widget.tasks![index];
+        bool isQuiz = task['type'] == 'quiz';
+        bool isDone = task['status'] == 'done';
+        bool isGreyCheck = task['check_color'] == 'grey'; // Specific override or logic
+
+        return Container(
+          margin: const EdgeInsets.only(bottom: 15),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.grey.shade300),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 5,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: IntrinsicHeight(
+            child: Row(
+              children: [
+                // Left Icon Section
+                Container(
+                  width: 60,
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        isQuiz ? Icons.quiz_outlined : Icons.assignment_outlined,
+                        size: 28,
+                        color: Colors.black87,
+                      ),
+                    ],
+                  ),
+                ),
+                // Vertical Divider
+                VerticalDivider(
+                  color: Colors.grey.shade300,
+                  thickness: 1,
+                  width: 1,
+                ),
+                // Right Content Section
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                task['title'],
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            if (isDone)
+                              Icon(
+                                Icons.check_circle,
+                                color: isGreyCheck ? Colors.grey : const Color(0xFF2ECC71),
+                                size: 22,
+                              ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Divider(color: Colors.grey.shade200, height: 1), // Optional divider inside? Image doesn't show one explicitly but text is separated
+                        const SizedBox(height: 8),
+                         Text(
+                          task['description'],
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.black87,
+                            height: 1.4,
+                          ),
+                          textAlign: TextAlign.justify,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
