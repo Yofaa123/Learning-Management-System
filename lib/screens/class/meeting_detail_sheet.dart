@@ -113,13 +113,48 @@ class _MeetingDetailSheetState extends State<MeetingDetailSheet> with SingleTick
                     controller: _tabController,
                     children: [
                       _buildLampiranList(),
-                       const Center(child: Text("Belum ada tugas atau kuis")),
+                      _buildEmptyState(),
                     ],
                    ),
                 )
               ],
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Placeholder for the illustration
+          // TODO: Replace with actual asset: Image.asset('assets/images/ilustrasi_kosong.png')
+          Container(
+            height: 200,
+            width: 200,
+            decoration: const BoxDecoration(
+              // color: Colors.grey[100],
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.weekend, // Playful icon representing 'relaxing' like the image
+              size: 100,
+              color: Colors.red[100],
+            ),
+          ),
+          const SizedBox(height: 20),
+          const Text(
+            "Tidak Ada Tugas Dan Kuis Hari Ini",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(height: 50), // Spacing to lift it up slightly
         ],
       ),
     );
