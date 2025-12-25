@@ -43,7 +43,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
               controller: _tabController,
               children: [
                 _buildMateriTab(),
-                const Center(child: Text("Tugas Dan Kuis Content")),
+                _buildTugasTab(),
               ],
             ),
           ),
@@ -51,6 +51,131 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
       ),
     );
   }
+
+  // ... (Header and TabBar methods are unchanged)
+
+  // ... (Materi Tab methods are unchanged)
+
+  Widget _buildTugasTab() {
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      children: [
+        _buildTaskItem(
+          tag: "QUIZ",
+          title: "Quiz Review 01",
+          deadline: "26 Februari 2021 23:59 WIB",
+          type: TaskType.quiz,
+          isDone: true,
+        ),
+        _buildTaskItem(
+          tag: "Tugas",
+          title: "Tugas 01 - UID Android Mobile Game",
+          deadline: "26 Februari 2021 23:59 WIB",
+          type: TaskType.assignment,
+          isDone: true,
+          isGrey: true, // Grey checkmark for the second item based on image? Actually image shows grey check for second item.
+        ),
+        _buildTaskItem(
+          tag: "Pertemuan 3",
+          title: "Kuis - Assessment 2",
+          deadline: "26 Februari 2021 23:59 WIB",
+          type: TaskType.quiz,
+          isDone: true,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTaskItem({
+    required String tag,
+    required String title,
+    required String deadline,
+    required TaskType type,
+    bool isDone = false,
+    bool isGrey = false,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 3,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF5DADE2), // Light Blue
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  tag,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              if (isDone)
+                Icon(
+                  Icons.check_circle,
+                  color: isGrey ? Colors.grey : const Color(0xFF2ECC71), // Green vs Grey
+                  size: 24,
+                ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                type == TaskType.quiz ? Icons.quiz_outlined : Icons.assignment_outlined,
+                size: 40,
+                color: Colors.black,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            "Tenggat Waktu : $deadline",
+            style: TextStyle(
+              fontSize: 11,
+              color: Colors.grey[600],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 
   Widget _buildHeader() {
     return Container(
@@ -228,3 +353,5 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
     );
   }
 }
+
+enum TaskType { quiz, assignment }
