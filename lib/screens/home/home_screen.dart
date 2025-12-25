@@ -3,6 +3,7 @@ import '../profile/profile_screen.dart';
 import '../announcement/announcement_screen.dart';
 import '../class/class_screen.dart';
 import '../notification/notification_screen.dart';
+import '../class/class_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String initialUserName;
@@ -14,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  String? _selectedClassTitle;
   late String userName;
 
   late final List<Widget> _pages;
@@ -22,35 +24,40 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     userName = widget.initialUserName;
-    _pages = [
-      // We will define the Home content widget in the build method or as a separate widget wrapper
-      // to access 'context' and 'userName' easily if needed, but for now let's use a setup where
-      // index 0 renders the home content methods.
-      // Actually, since ClassScreen and NotificationScreen are separate widgets, we can just instantiate them.
-      // To keep Home content clean, I will wrap it in a pseudo-widget or just handle it in build.
-      const SizedBox(), // Placeholder for Home, handled in build
-      const ClassScreen(),
-      const NotificationScreen(),
-    ];
   }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      // Optional: Reset selection if clicking the class tab again?
+      // For now, let's keep the state.
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // We dynamically build the body.
-    // For index 0, we build the home content.
-    // For others, we return the pre-defined widgets or builders.
-    
     Widget bodyContent;
     if (_selectedIndex == 0) {
       bodyContent = _buildHomeContent(context);
     } else if (_selectedIndex == 1) {
-      bodyContent = const ClassScreen();
+      if (_selectedClassTitle != null) {
+        bodyContent = ClassDetailScreen(
+          title: _selectedClassTitle!,
+          onBack: () {
+            setState(() {
+              _selectedClassTitle = null;
+            });
+          },
+        );
+      } else {
+        bodyContent = ClassScreen(
+          onClassTap: (title) {
+            setState(() {
+              _selectedClassTitle = title;
+            });
+          },
+        );
+      }
     } else {
       bodyContent = NotificationScreen(
         onBack: () {

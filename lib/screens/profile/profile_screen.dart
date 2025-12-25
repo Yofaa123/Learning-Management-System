@@ -3,6 +3,7 @@ import '../auth/login_screen.dart';
 // import '../home/home_screen.dart'; // Cyclic import not strictly needed for pop but good for types if needed.
 import '../class/class_screen.dart';
 import '../notification/notification_screen.dart';
+import '../class/class_detail_screen.dart';
 
 import 'package:flutter/services.dart';
 
@@ -500,7 +501,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
             } else if (index == 1) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ClassScreen()),
+                MaterialPageRoute(
+                  builder: (context) => ClassScreen(
+                    onClassTap: (title) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ClassDetailScreen(
+                            title: title,
+                            onBack: () => Navigator.pop(context),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               );
             } else if (index == 2) {
               Navigator.push(

@@ -1,0 +1,247 @@
+import 'package:flutter/material.dart';
+
+class ClassDetailScreen extends StatefulWidget {
+  final String title;
+  final VoidCallback onBack;
+
+  const ClassDetailScreen({
+    super.key,
+    required this.title,
+    required this.onBack,
+  });
+
+  @override
+  State<ClassDetailScreen> createState() => _ClassDetailScreenState();
+}
+
+class _ClassDetailScreenState extends State<ClassDetailScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          _buildHeader(),
+          _buildTabBar(),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                _buildMateriTab(),
+                const Center(child: Text("Tugas Dan Kuis Content")),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Container(
+      padding: const EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 20),
+      decoration: const BoxDecoration(
+        color: Color(0xFFBC4B4B),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: widget.onBack,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+          ),
+          const SizedBox(width: 15),
+          Expanded(
+            child: Text(
+              widget.title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                height: 1.3,
+              ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTabBar() {
+    return Container(
+      margin: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(25),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: TabBar(
+        controller: _tabController,
+        indicator: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: Colors.white,
+          border: Border(
+            bottom: BorderSide(color: Colors.black, width: 2),
+          ),
+        ),
+        indicatorColor: Colors.black,
+        labelColor: Colors.black,
+        unselectedLabelColor: Colors.grey,
+        indicatorSize: TabBarIndicatorSize.label,
+        tabs: const [
+          Tab(text: "Materi"),
+          Tab(text: "Tugas Dan Kuis"),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMateriTab() {
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      children: [
+        _buildMeetingItem(
+          meeting: "Pertemuan 1",
+          title: "01 - Pengantar User Interface Design",
+          subtitle: "3 URLs, 2 Files, 3 Interactive Content",
+          isDone: true,
+          isGrey: true,
+        ),
+        _buildMeetingItem(
+          meeting: "Pertemuan 2",
+          title: "02 - Konsep User Interface Design",
+          subtitle: "2 URLs, 1 Kuis, 3 Files, 1 Tugas",
+          isDone: true,
+        ),
+        _buildMeetingItem(
+          meeting: "Pertemuan 3",
+          title: "03 - Interaksi pada User Interface Design",
+          subtitle: "3 URLs, 2 Files, 3 Interactive Content",
+          isDone: true,
+        ),
+        _buildMeetingItem(
+          meeting: "Pertemuan 4",
+          title: "04 - Ethnographic Observation",
+          subtitle: "3 URLs, 2 Files, 3 Interactive Content",
+          isDone: true,
+        ),
+        _buildMeetingItem(
+          meeting: "Pertemuan 5",
+          title: "05 - UID Testing",
+          subtitle: "3 URLs, 2 Files, 3 Interactive Content",
+          isDone: true,
+        ),
+        _buildMeetingItem(
+          meeting: "Pertemuan 6",
+          title: "06 - Assessment 1",
+          subtitle: "3 URLs, 2 Files, 3 Interactive Content",
+          isDone: true,
+        ),
+        const SizedBox(height: 20),
+      ],
+    );
+  }
+
+  Widget _buildMeetingItem({
+    required String meeting,
+    required String title,
+    required String subtitle,
+    bool isDone = false,
+    bool isGrey = false,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 3,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF5DADE2), // Light Blue
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  meeting,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              if (isDone)
+                Icon(
+                  Icons.check_circle,
+                  color: isGrey ? Colors.grey : const Color(0xFF2ECC71), // Green
+                  size: 20,
+                ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            subtitle,
+            style: TextStyle(
+              fontSize: 11,
+              color: Colors.grey[600],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
