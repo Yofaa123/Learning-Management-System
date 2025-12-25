@@ -93,31 +93,14 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
   Widget _buildTabBar() {
     return Container(
       margin: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(25),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
       child: TabBar(
         controller: _tabController,
-        indicator: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          color: Colors.white,
-          border: Border(
-            bottom: BorderSide(color: Colors.black, width: 2),
-          ),
+        indicator: const UnderlineTabIndicator(
+          borderSide: BorderSide(color: Colors.grey, width: 3),
         ),
-        indicatorColor: Colors.black,
         labelColor: Colors.black,
         unselectedLabelColor: Colors.grey,
-        indicatorSize: TabBarIndicatorSize.label,
+        indicatorSize: TabBarIndicatorSize.tab,
         tabs: const [
           Tab(text: "Materi"),
           Tab(text: "Tugas Dan Kuis"),
