@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'material_view_screen.dart';
 import 'assignment_detail_screen.dart';
+import 'video_detail_screen.dart';
 
 class MeetingDetailSheet extends StatefulWidget {
   final ScrollController? scrollController;
@@ -213,6 +214,17 @@ class _MeetingDetailSheetState extends State<MeetingDetailSheet> with SingleTick
                       builder: (context) => MaterialViewScreen(
                         title: "Pengantar User Interface Design",
                         assetPath: "assets/documents/UI.pdf",
+                      ),
+                    ),
+                  );
+                } else if (item['title'] == "User Interface Design for Beginner" &&
+                    item['icon'] == Icons.video_camera_back_outlined) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const VideoDetailScreen(
+                        videoId: "YiLUYf4HDh4",
+                        videoTitle: "Video - User Interface Design For Beginner",
                       ),
                     ),
                   );
