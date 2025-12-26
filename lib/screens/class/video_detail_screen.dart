@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VideoDetailScreen extends StatefulWidget {
   final String videoId;
@@ -58,16 +61,21 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
       ),
       body: Column(
         children: [
-          // YouTube Player
-          YoutubePlayer(
-            controller: _controller,
-            showVideoProgressIndicator: true,
-            progressIndicatorColor: const Color(0xFFBC4B4B),
-            progressColors: const ProgressBarColors(
-              playedColor: Color(0xFFBC4B4B),
-              handleColor: Color(0xFFBC4B4B),
+          // YouTube Player - Platform Specific
+          if (kIsWeb)
+            // Web: Show thumbnail with play button that opens YouTube
+            _buildWebVideoPlayer()
+          else
+            // Mobile: Show actual YouTube player
+            YoutubePlayer(
+              controller: _controller,
+              showVideoProgressIndicator: true,
+              progressIndicatorColor: const Color(0xFFBC4B4B),
+              progressColors: const ProgressBarColors(
+                playedColor: Color(0xFFBC4B4B),
+                handleColor: Color(0xFFBC4B4B),
+              ),
             ),
-          ),
           
           // Video List Section
           Expanded(
@@ -86,14 +94,14 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
                 
                 // Video 1 - Interaction Design
                 _buildVideoItem(
-                  thumbnailUrl: "https://img.youtube.com/vi/t-sOFhIbYlg/mqdefault.jpg",
+                  thumbnailUrl: "https://img.youtube.com/vi/U7rS_2ch_Ps/mqdefault.jpg",
                   title: "Interaction Design",
                   onTap: () {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const VideoDetailScreen(
-                          videoId: "t-sOFhIbYlg",
+                          videoId: "U7rS_2ch_Ps",
                           videoTitle: "Interaction Design",
                         ),
                       ),
@@ -103,14 +111,14 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
                 
                 // Video 2 - Pengantar Desain Antarmuka Pengguna
                 _buildVideoItem(
-                  thumbnailUrl: "https://img.youtube.com/vi/gXVFl6vG1lk/mqdefault.jpg",
+                  thumbnailUrl: "https://img.youtube.com/vi/oWI02NbZnaE/mqdefault.jpg",
                   title: "Pengantar Desain\nAntarmuka Pengguna",
                   onTap: () {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const VideoDetailScreen(
-                          videoId: "gXVFl6vG1lk",
+                          videoId: "oWI02NbZnaE",
                           videoTitle: "Pengantar Desain Antarmuka Pengguna",
                         ),
                       ),
@@ -120,14 +128,14 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
                 
                 // Video 3 - 4 Teori Dasar Desain Antarmuka Pengguna
                 _buildVideoItem(
-                  thumbnailUrl: "https://img.youtube.com/vi/0Ps0d4MkdyQ/mqdefault.jpg",
+                  thumbnailUrl: "https://img.youtube.com/vi/Zo-j_FTKBow/mqdefault.jpg",
                   title: "4 Teori Dasar Desain\nAntarmuka Pengguna",
                   onTap: () {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const VideoDetailScreen(
-                          videoId: "0Ps0d4MkdyQ",
+                          videoId: "Zo-j_FTKBow",
                           videoTitle: "4 Teori Dasar Desain Antarmuka Pengguna",
                         ),
                       ),
@@ -178,19 +186,32 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
             // Thumbnail
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                thumbnailUrl,
+              child: CachedNetworkImage(
+                imageUrl: thumbnailUrl,
                 width: 120,
                 height: 80,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    width: 120,
-                    height: 80,
-                    color: Colors.grey[300],
-                    child: const Icon(Icons.video_library, size: 40),
-                  );
-                },
+                placeholder: (context, url) => Container(
+                  width: 120,
+                  height: 80,
+                  color: Colors.grey[300],
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFBC4B4B)),
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  width: 120,
+                  height: 80,
+                  color: Colors.grey[300],
+                  child: const Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Icon(Icons.play_circle_outline, size: 50, color: Colors.grey),
+                    ],
+                  ),
+                ),
               ),
             ),
             const SizedBox(width: 15),
@@ -210,5 +231,101 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
         ),
       ),
     );
+  }
+
+  // Web Video Player - Shows thumbnail with play button
+  Widget _buildWebVideoPlayer() {
+    final thumbnailUrl = "https://img.youtube.com/vi/${widget.videoId}/maxresdefault.jpg";
+    
+    return GestureDetector(
+      onTap: () => _openYouTubeInBrowser(widget.videoId),
+      child: Container(
+        width: double.infinity,
+        height: 220,
+        color: Colors.black,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            // Thumbnail
+            CachedNetworkImage(
+              imageUrl: thumbnailUrl,
+              width: double.infinity,
+              height: 220,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => Container(
+                color: Colors.black,
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFBC4B4B)),
+                  ),
+                ),
+              ),
+              errorWidget: (context, url, error) => Container(
+                color: Colors.black,
+                child: const Center(
+                  child: Icon(Icons.video_library, size: 80, color: Colors.white54),
+                ),
+              ),
+            ),
+            // Play button overlay
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFBC4B4B),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.play_arrow,
+                    size: 50,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.7),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Text(
+                    'Klik untuk buka di YouTube',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Open YouTube video in browser
+  Future<void> _openYouTubeInBrowser(String videoId) async {
+    final url = Uri.parse('https://www.youtube.com/watch?v=$videoId');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Tidak bisa membuka YouTube'),
+            backgroundColor: Color(0xFFBC4B4B),
+          ),
+        );
+      }
+    }
   }
 }
