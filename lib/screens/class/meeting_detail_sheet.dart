@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'material_view_screen.dart';
 
 class MeetingDetailSheet extends StatefulWidget {
   final ScrollController? scrollController;
@@ -185,7 +186,6 @@ class _MeetingDetailSheetState extends State<MeetingDetailSheet> with SingleTick
         final item = widget.attachments[index];
         return Container(
           margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(30), // Rounded pill shape
@@ -198,20 +198,46 @@ class _MeetingDetailSheetState extends State<MeetingDetailSheet> with SingleTick
               ),
             ],
           ),
-          child: Row(
-            children: [
-              Icon(item['icon'], size: 24, color: Colors.black87),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  item['title'],
-                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+          child: Material(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(30),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(30),
+              onTap: () {
+                if (item['title'] == "Pengantar User Interface Design" &&
+                    item['icon'] == Icons.description_outlined) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MaterialViewScreen(
+                        title: "Pengantar User Interface Design",
+                        assetPath: "assets/documents/UI.pdf",
+                      ),
+                    ),
+                  );
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                child: Row(
+                  children: [
+                    Icon(item['icon'], size: 24, color: Colors.black87),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        item['title'],
+                        style:
+                            const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    if (item['checked'])
+                      const Icon(Icons.check_circle,
+                          color: Color(0xFF2ECC71), size: 24),
+                  ],
                 ),
               ),
-              const SizedBox(width: 8),
-              if (item['checked'])
-                 const Icon(Icons.check_circle, color: Color(0xFF2ECC71), size: 24),
-            ],
+            ),
           ),
         );
       },
