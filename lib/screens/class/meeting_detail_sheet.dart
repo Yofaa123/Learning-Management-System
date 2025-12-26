@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'material_view_screen.dart';
+import 'assignment_detail_screen.dart';
 
 class MeetingDetailSheet extends StatefulWidget {
   final ScrollController? scrollController;
@@ -269,74 +270,91 @@ class _MeetingDetailSheetState extends State<MeetingDetailSheet> with SingleTick
               ),
             ],
           ),
-          child: IntrinsicHeight(
-            child: Row(
-              children: [
-                // Left Icon Section
-                Container(
-                  width: 60,
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        isQuiz ? Icons.quiz_outlined : Icons.assignment_outlined,
-                        size: 28,
-                        color: Colors.black87,
+          child: Material(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(20),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () {
+                if (task['title'] == "Tugas 01 - UID Android Mobile Game") {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AssignmentDetailScreen(),
+                    ),
+                  );
+                }
+              },
+              child: IntrinsicHeight(
+                child: Row(
+                  children: [
+                    // Left Icon Section
+                    Container(
+                      width: 60,
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            isQuiz ? Icons.quiz_outlined : Icons.assignment_outlined,
+                            size: 28,
+                            color: Colors.black87,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                // Vertical Divider
-                VerticalDivider(
-                  color: Colors.grey.shade300,
-                  thickness: 1,
-                  width: 1,
-                ),
-                // Right Content Section
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ),
+                    // Vertical Divider
+                    VerticalDivider(
+                      color: Colors.grey.shade300,
+                      thickness: 1,
+                      width: 1,
+                    ),
+                    // Right Content Section
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: Text(
-                                task['title'],
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    task['title'],
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                if (isDone)
+                                  Icon(
+                                    Icons.check_circle,
+                                    color: isGreyCheck ? Colors.grey : const Color(0xFF2ECC71),
+                                    size: 22,
+                                  ),
+                              ],
                             ),
-                            if (isDone)
-                              Icon(
-                                Icons.check_circle,
-                                color: isGreyCheck ? Colors.grey : const Color(0xFF2ECC71),
-                                size: 22,
+                            const SizedBox(height: 8),
+                            Divider(color: Colors.grey.shade200, height: 1), // Optional divider inside? Image doesn't show one explicitly but text is separated
+                            const SizedBox(height: 8),
+                             Text(
+                              task['description'],
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.black87,
+                                height: 1.4,
                               ),
+                              textAlign: TextAlign.justify,
+                            ),
                           ],
                         ),
-                        const SizedBox(height: 8),
-                        Divider(color: Colors.grey.shade200, height: 1), // Optional divider inside? Image doesn't show one explicitly but text is separated
-                        const SizedBox(height: 8),
-                         Text(
-                          task['description'],
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.black87,
-                            height: 1.4,
-                          ),
-                          textAlign: TextAlign.justify,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         );
