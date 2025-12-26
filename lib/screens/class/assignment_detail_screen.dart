@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'upload_assignment_sheet.dart';
 
 class AssignmentDetailScreen extends StatelessWidget {
   const AssignmentDetailScreen({super.key});
@@ -77,7 +78,14 @@ class AssignmentDetailScreen extends StatelessWidget {
                child: Container(
                  margin: const EdgeInsets.only(bottom: 30),
                  child: ElevatedButton(
-                   onPressed: () {},
+                   onPressed: () {
+                     showModalBottomSheet(
+                       context: context,
+                       backgroundColor: Colors.transparent,
+                       isScrollControlled: true,
+                       builder: (context) => const UploadAssignmentSheet(),
+                     );
+                   },
                    style: ElevatedButton.styleFrom(
                      backgroundColor: Colors.grey[200],
                      foregroundColor: Colors.black,
