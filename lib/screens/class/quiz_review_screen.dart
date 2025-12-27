@@ -8,6 +8,7 @@ class QuizReviewScreen extends StatelessWidget {
   final String timeLimit;
   final String gradingMethod;
   final double finalScore;
+  final Map<int, int>? selectedAnswers;
 
   const QuizReviewScreen({
     super.key,
@@ -17,6 +18,7 @@ class QuizReviewScreen extends StatelessWidget {
     this.timeLimit = '15 menit',
     this.gradingMethod = 'Nilai Tertinggi',
     this.finalScore = 85.0,
+    this.selectedAnswers,
   });
 
   @override
@@ -56,7 +58,7 @@ class QuizReviewScreen extends StatelessWidget {
               const SizedBox(height: 25),
               
               // Attempt History Section
-              _buildAttemptHistorySection(),
+              _buildAttemptHistorySection(context),
               
               const SizedBox(height: 20),
               
@@ -155,7 +157,7 @@ class QuizReviewScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAttemptHistorySection() {
+  Widget _buildAttemptHistorySection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -283,7 +285,17 @@ class QuizReviewScreen extends StatelessWidget {
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
-                            // Placeholder for review action
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => QuizTakingScreen(
+                                  quizTitle: quizTitle,
+                                  isReviewMode: true,
+                                  initialIndex: 0,
+                                  initialAnswers: selectedAnswers,
+                                ),
+                              ),
+                            );
                           },
                           child: const Text(
                             'Lihat',
@@ -322,33 +334,35 @@ class QuizReviewScreen extends StatelessWidget {
     return Column(
       children: [
         // Ambil Kuis Button
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => QuizTakingScreen(
-                    quizTitle: quizTitle,
+        Center(
+          child: SizedBox(
+            width: 250,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => QuizTakingScreen(
+                      quizTitle: quizTitle,
+                    ),
                   ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFF5F5F5),
+                foregroundColor: Colors.black87,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.grey[300],
-              foregroundColor: Colors.black87,
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+                elevation: 0,
               ),
-              elevation: 0,
-            ),
-            child: const Text(
-              'Ambil Kuis',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
+              child: const Text(
+                'Ambil Kuis',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
@@ -357,26 +371,28 @@ class QuizReviewScreen extends StatelessWidget {
         const SizedBox(height: 12),
         
         // Kembali Ke Kelas Button
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.grey[300],
-              foregroundColor: Colors.black87,
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+        Center(
+          child: SizedBox(
+            width: 250,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFF5F5F5),
+                foregroundColor: Colors.black87,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 0,
               ),
-              elevation: 0,
-            ),
-            child: const Text(
-              'Kembali Ke Kelas',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
+              child: const Text(
+                'Kembali Ke Kelas',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),

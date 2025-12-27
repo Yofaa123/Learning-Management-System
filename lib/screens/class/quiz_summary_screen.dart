@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'quiz_taking_screen.dart';
+import 'quiz_review_screen.dart';
 
 class QuizSummaryScreen extends StatelessWidget {
   final String quizTitle;
@@ -36,6 +37,14 @@ class QuizSummaryScreen extends StatelessWidget {
     String formatDate(DateTime dt) {
       return '${days[dt.weekday - 1]} ${dt.day} ${months[dt.month - 1]} ${dt.year} ${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
     }
+
+    int correctCount = 0;
+    for (int i = 0; i < questions.length; i++) {
+      if (selectedAnswers[i] == questions[i]['correctIndex']) {
+        correctCount++;
+      }
+    }
+    double score = (correctCount / questions.length) * 100;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -76,7 +85,7 @@ class QuizSummaryScreen extends StatelessWidget {
                   _buildInfoRow('Status', 'Selesai'),
                   _buildInfoRow('Selesai Pada', formatDate(now)),
                   _buildInfoRow('Waktu Penyelesaian', _formatTime(timeSpentSeconds)),
-                  _buildInfoRow('Nilai', '0 / 100'),
+                  _buildInfoRow('Nilai', '${score.toStringAsFixed(1)} / 100'),
                 ],
               ),
             ),
@@ -208,7 +217,17 @@ class QuizSummaryScreen extends StatelessWidget {
                 width: 120,
                 child: ElevatedButton(
                   onPressed: () {
-                    // No action yet as requested
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QuizReviewScreen(
+                          quizTitle: quizTitle,
+                          finalScore: score,
+                          selectedAnswers: selectedAnswers,
+                        ),
+                      ),
+                      (route) => route.isFirst,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF2ECC71),

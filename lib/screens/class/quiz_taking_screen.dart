@@ -76,6 +76,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
         'Riwayat Pendidikan',
         'Umur',
       ],
+      'correctIndex': 0,
     },
     {
       'question':
@@ -87,6 +88,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
         'Koefensi',
         'Koreksi',
       ],
+      'correctIndex': 2,
     },
     {
       'question':
@@ -98,6 +100,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
         'Proximity',
         'Balance',
       ],
+      'correctIndex': 4,
     },
     {
       'question':
@@ -109,6 +112,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
         'Hijau muda',
         'Putih',
       ],
+      'correctIndex': 2,
     },
     {
       'question':
@@ -120,6 +124,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
         'Baseline',
         'X-height',
       ],
+      'correctIndex': 1,
     },
     {
       'question':
@@ -131,6 +136,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
         'Toggle Switch',
         'Slider',
       ],
+      'correctIndex': 2,
     },
     {
       'question':
@@ -142,6 +148,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
         'Card Sorting',
         'Heuristic Evaluation',
       ],
+      'correctIndex': 2,
     },
     {
       'question':
@@ -153,6 +160,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
         'Fibonacci Sequence',
         'Grid System',
       ],
+      'correctIndex': 2,
     },
     {
       'question':
@@ -164,6 +172,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
         'Memandu mata pengguna ke elemen penting',
         'Mengatur font',
       ],
+      'correctIndex': 3,
     },
     {
       'question':
@@ -175,6 +184,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
         'Skema warna',
         'Template desain',
       ],
+      'correctIndex': 1,
     },
     {
       'question':
@@ -186,6 +196,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
         'PowerPoint',
         'Excel',
       ],
+      'correctIndex': 2,
     },
     {
       'question':
@@ -197,6 +208,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
         'Menghemat biaya',
         'Mengurangi warna',
       ],
+      'correctIndex': 2,
     },
     {
       'question':
@@ -208,6 +220,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
         'Menggunakan satu ukuran untuk semua',
         'Tidak mempedulikan ukuran layar',
       ],
+      'correctIndex': 2,
     },
     {
       'question':
@@ -219,6 +232,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
         'Continuity',
         'Figure-Ground',
       ],
+      'correctIndex': 1,
     },
     {
       'question':
