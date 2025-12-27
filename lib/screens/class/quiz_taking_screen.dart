@@ -4,10 +4,14 @@ import 'quiz_summary_screen.dart';
 
 class QuizTakingScreen extends StatefulWidget {
   final String quizTitle;
+  final bool isReviewMode;
+  final int initialIndex;
 
   const QuizTakingScreen({
     super.key,
     this.quizTitle = 'Quiz Review 1',
+    this.isReviewMode = false,
+    this.initialIndex = 0,
   });
 
   @override
@@ -26,6 +30,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
   @override
   void initState() {
     super.initState();
+    _currentQuestionIndex = widget.initialIndex;
     _startTime = DateTime.now();
     _startTimer();
   }
@@ -382,7 +387,9 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
             height: 32,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: isAnswered ? const Color(0xFF2ECC71) : Colors.white,
+              color: widget.isReviewMode 
+                  ? const Color(0xFF00FF00) // Bright Green for Review Mode
+                  : (isAnswered ? const Color(0xFF2ECC71) : Colors.white),
               border: Border.all(
                 color: isCurrent ? Colors.black : Colors.grey[400]!,
                 width: isCurrent ? 2 : 1,
@@ -458,55 +465,86 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
           ),
         ],
       ),
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Previous Button
-          if (!isFirstQuestion)
-            Expanded(
-              child: OutlinedButton(
-                onPressed: _previousQuestion,
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  side: BorderSide(color: Colors.grey[400]!),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+          if (widget.isReviewMode)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: SizedBox(
+                width: 200,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFF5F5F5),
+                    foregroundColor: Colors.black87,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    elevation: 0,
                   ),
-                ),
-                child: const Text(
-                  'Soal Sebelumnya',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.w500,
+                  child: const Text(
+                    'Kembali Ke Halam Review',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
             ),
-          
-          if (!isFirstQuestion && !isLastQuestion)
-            const SizedBox(width: 12),
-          
-          // Next/Finish Button
-          Expanded(
-            child: ElevatedButton(
-              onPressed: isLastQuestion ? _finishQuiz : _nextQuestion,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: isLastQuestion ? const Color(0xFF2ECC71) : Colors.grey[400],
-                foregroundColor: isLastQuestion ? Colors.white : Colors.black87,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+          Row(
+            children: [
+              // Previous Button
+              if (!isFirstQuestion)
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: _previousQuestion,
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      side: BorderSide(color: Colors.grey[400]!),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Text(
+                      'Soal Sebelumnya',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
                 ),
-                elevation: 0,
-              ),
-              child: Text(
-                isLastQuestion ? 'Selesai' : 'Soal Selanjutnya',
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+              
+              if (!isFirstQuestion && !isLastQuestion)
+                const SizedBox(width: 12),
+              
+              // Next/Finish Button
+               Expanded(
+                child: ElevatedButton(
+                  onPressed: isLastQuestion ? _finishQuiz : _nextQuestion,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: isLastQuestion ? const Color(0xFF2ECC71) : Colors.grey[400],
+                    foregroundColor: isLastQuestion ? Colors.white : Colors.black87,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    isLastQuestion ? 'Selesai' : 'Soal Selanjutnya',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
         ],
       ),

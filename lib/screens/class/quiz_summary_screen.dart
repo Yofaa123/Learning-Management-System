@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'quiz_taking_screen.dart';
 
 class QuizSummaryScreen extends StatelessWidget {
   final String quizTitle;
@@ -164,12 +165,26 @@ class QuizSummaryScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                const Text(
-                                  'Lihat Soal',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.w500,
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => QuizTakingScreen(
+                                          quizTitle: quizTitle,
+                                          isReviewMode: true,
+                                          initialIndex: index,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text(
+                                    'Lihat Soal',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
                               ],
