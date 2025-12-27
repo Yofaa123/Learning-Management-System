@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'meeting_detail_sheet.dart';
+import 'quiz_review_screen.dart';
 
 class ClassDetailScreen extends StatefulWidget {
   final String title;
@@ -67,6 +68,21 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
           deadline: "26 Februari 2021 23:59 WIB",
           type: TaskType.quiz,
           isDone: true,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const QuizReviewScreen(
+                  quizTitle: 'Quiz Review 1',
+                  deadline: '26 Februari 2021 23:59 WIB',
+                  closeTime: 'Jumat, 26 February 2021, 11:59 PM',
+                  timeLimit: '15 menit',
+                  gradingMethod: 'Nilai Tertinggi',
+                  finalScore: 85.0,
+                ),
+              ),
+            );
+          },
         ),
         _buildTaskItem(
           tag: "Tugas",
@@ -94,8 +110,11 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
     required TaskType type,
     bool isDone = false,
     bool isGrey = false,
+    VoidCallback? onTap,
   }) {
-    return Container(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
       margin: const EdgeInsets.only(bottom: 15),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -173,6 +192,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
             ),
           ),
         ],
+      ),
       ),
     );
   }

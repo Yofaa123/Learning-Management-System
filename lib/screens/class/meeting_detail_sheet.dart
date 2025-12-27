@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'material_view_screen.dart';
 import 'assignment_detail_screen.dart';
 import 'video_detail_screen.dart';
+import 'quiz_review_screen.dart';
 
 class MeetingDetailSheet extends StatefulWidget {
   final ScrollController? scrollController;
@@ -288,7 +289,21 @@ class _MeetingDetailSheetState extends State<MeetingDetailSheet> with SingleTick
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
               onTap: () {
-                if (task['title'] == "Tugas 01 - UID Android Mobile Game") {
+                if (task['title'] == "Quiz Review 01") {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const QuizReviewScreen(
+                        quizTitle: 'Quiz Review 1',
+                        deadline: '26 Februari 2021 23:59 WIB',
+                        closeTime: 'Jumat, 26 February 2021, 11:59 PM',
+                        timeLimit: '15 menit',
+                        gradingMethod: 'Nilai Tertinggi',
+                        finalScore: 85.0,
+                      ),
+                    ),
+                  );
+                } else if (task['title'] == "Tugas 01 - UID Android Mobile Game") {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
