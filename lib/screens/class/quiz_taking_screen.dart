@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 class QuizTakingScreen extends StatefulWidget {
   final String quizTitle;
@@ -15,6 +16,41 @@ class QuizTakingScreen extends StatefulWidget {
 class _QuizTakingScreenState extends State<QuizTakingScreen> {
   int _currentQuestionIndex = 0;
   Map<int, int> _selectedAnswers = {}; // questionIndex -> answerIndex (0-4)
+  
+  // Timer state
+  late Timer _timer;
+  int _remainingSeconds = 900; // 15 minutes = 900 seconds
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_remainingSeconds > 0) {
+        setState(() {
+          _remainingSeconds--;
+        });
+      } else {
+        timer.cancel();
+        // Timer reached 0 - could show dialog or auto-submit
+      }
+    });
+  }
+
+  String _formatTime(int seconds) {
+    int minutes = seconds ~/ 60;
+    int secs = seconds % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
+  }
 
   // Quiz questions data
   final List<Map<String, dynamic>> _questions = [
@@ -239,9 +275,9 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
               children: [
                 const Icon(Icons.access_time, color: Colors.white, size: 20),
                 const SizedBox(width: 6),
-                const Text(
-                  '15:00',
-                  style: TextStyle(
+                Text(
+                  _formatTime(_remainingSeconds),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
