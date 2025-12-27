@@ -174,6 +174,7 @@ class QuizSummaryScreen extends StatelessWidget {
                                           quizTitle: quizTitle,
                                           isReviewMode: true,
                                           initialIndex: index,
+                                          initialAnswers: selectedAnswers,
                                         ),
                                       ),
                                     );

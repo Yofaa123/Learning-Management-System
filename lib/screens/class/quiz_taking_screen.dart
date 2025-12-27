@@ -6,12 +6,14 @@ class QuizTakingScreen extends StatefulWidget {
   final String quizTitle;
   final bool isReviewMode;
   final int initialIndex;
+  final Map<int, int>? initialAnswers;
 
   const QuizTakingScreen({
     super.key,
     this.quizTitle = 'Quiz Review 1',
     this.isReviewMode = false,
     this.initialIndex = 0,
+    this.initialAnswers,
   });
 
   @override
@@ -31,6 +33,9 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
   void initState() {
     super.initState();
     _currentQuestionIndex = widget.initialIndex;
+    if (widget.initialAnswers != null) {
+      _selectedAnswers = Map<int, int>.from(widget.initialAnswers!);
+    }
     _startTime = DateTime.now();
     _startTimer();
   }
@@ -229,6 +234,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
   ];
 
   void _selectAnswer(int answerIndex) {
+    if (widget.isReviewMode) return; // Disable in review mode
     setState(() {
       _selectedAnswers[_currentQuestionIndex] = answerIndex;
     });
@@ -382,26 +388,33 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
           final isAnswered = _selectedAnswers.containsKey(index);
           final isCurrent = index == _currentQuestionIndex;
           
-          return Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: widget.isReviewMode 
-                  ? const Color(0xFF00FF00) // Bright Green for Review Mode
-                  : (isAnswered ? const Color(0xFF2ECC71) : Colors.white),
-              border: Border.all(
-                color: isCurrent ? Colors.black : Colors.grey[400]!,
-                width: isCurrent ? 2 : 1,
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                _currentQuestionIndex = index;
+              });
+            },
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: widget.isReviewMode 
+                    ? const Color(0xFF00FF00) // Bright Green for Review Mode
+                    : (isAnswered ? const Color(0xFF2ECC71) : Colors.white),
+                border: Border.all(
+                  color: isCurrent ? Colors.black : Colors.grey[400]!,
+                  width: isCurrent ? 2 : 1,
+                ),
               ),
-            ),
-            child: Center(
-              child: Text(
-                '${index + 1}',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: isCurrent ? FontWeight.bold : FontWeight.w500,
-                  color: isAnswered ? Colors.white : Colors.black,
+              child: Center(
+                child: Text(
+                  '${index + 1}',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: isCurrent ? FontWeight.bold : FontWeight.w500,
+                    color: (widget.isReviewMode || isAnswered) ? Colors.white : Colors.black,
+                  ),
                 ),
               ),
             ),
@@ -471,31 +484,34 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
           if (widget.isReviewMode)
             Padding(
               padding: const EdgeInsets.only(bottom: 12),
-              child: SizedBox(
-                width: 200,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFF5F5F5),
-                    foregroundColor: Colors.black87,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+              child: Center(
+                child: SizedBox(
+                  width: 220,
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFF5F5F5),
+                      foregroundColor: Colors.black87,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 0,
                     ),
-                    elevation: 0,
-                  ),
-                  child: const Text(
-                    'Kembali Ke Halam Review',
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
+                    child: const Text(
+                      'Kembali Ke Halam Review',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          Row(
-            children: [
+          if (!widget.isReviewMode)
+            Row(
+              children: [
               // Previous Button
               if (!isFirstQuestion)
                 Expanded(
