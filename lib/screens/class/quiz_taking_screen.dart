@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'quiz_summary_screen.dart';
 
 class QuizTakingScreen extends StatefulWidget {
   final String quizTitle;
@@ -20,10 +21,12 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
   // Timer state
   late Timer _timer;
   int _remainingSeconds = 900; // 15 minutes = 900 seconds
+  late DateTime _startTime;
 
   @override
   void initState() {
     super.initState();
+    _startTime = DateTime.now();
     _startTimer();
   }
 
@@ -243,7 +246,19 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
   }
 
   void _finishQuiz() {
-    // Placeholder - no action as requested
+    final timeSpent = DateTime.now().difference(_startTime).inSeconds;
+    
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => QuizSummaryScreen(
+          quizTitle: widget.quizTitle,
+          questions: _questions,
+          selectedAnswers: _selectedAnswers,
+          timeSpentSeconds: timeSpent,
+        ),
+      ),
+    );
   }
 
   @override
