@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'quiz_taking_screen.dart';
 
 class QuizReviewScreen extends StatelessWidget {
   final String quizTitle;
@@ -325,7 +326,14 @@ class QuizReviewScreen extends StatelessWidget {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
-              // Placeholder for take quiz action
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => QuizTakingScreen(
+                    quizTitle: quizTitle,
+                  ),
+                ),
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.grey[300],
