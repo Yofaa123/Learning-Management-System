@@ -271,7 +271,7 @@ class QuizReviewScreen extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 2),
                         child: Text(
-                          finalScore.toStringAsFixed(1),
+                          finalScore.toStringAsFixed(2),
                           style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -311,7 +311,7 @@ class QuizReviewScreen extends StatelessWidget {
 
   Widget _buildFinalScore() {
     return Text(
-      'Nilai Akhir Anda Untuk Kuis Ini Adalah ${finalScore.toStringAsFixed(1)} / 100.00',
+      'Nilai Akhir Anda Untuk Kuis Ini Adalah ${finalScore.toStringAsFixed(2)} / 100.00',
       style: const TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.bold,

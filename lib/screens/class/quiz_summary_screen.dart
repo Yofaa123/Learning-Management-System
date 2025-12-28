@@ -40,11 +40,11 @@ class QuizSummaryScreen extends StatelessWidget {
 
     int correctCount = 0;
     for (int i = 0; i < questions.length; i++) {
-      if (selectedAnswers[i] == questions[i]['correctIndex']) {
-        correctCount++;
-      }
+        if (selectedAnswers[i] == questions[i]['correctIndex']) {
+            correctCount++;
+        }
     }
-    double score = (correctCount / questions.length) * 100;
+    double score = questions.isEmpty ? 0.0 : (correctCount / questions.length) * 100;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -85,7 +85,7 @@ class QuizSummaryScreen extends StatelessWidget {
                   _buildInfoRow('Status', 'Selesai'),
                   _buildInfoRow('Selesai Pada', formatDate(now)),
                   _buildInfoRow('Waktu Penyelesaian', _formatTime(timeSpentSeconds)),
-                  _buildInfoRow('Nilai', '${score.toStringAsFixed(1)} / 100'),
+                  _buildInfoRow('Nilai', '${score.toStringAsFixed(2)} / 100.00'),
                 ],
               ),
             ),
