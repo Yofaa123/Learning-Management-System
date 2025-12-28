@@ -381,6 +381,18 @@ class _HomeScreenState extends State<HomeScreen> {
           80, // percentage
           Colors.orangeAccent,
           'assets/images/desain.png',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ClassDetailScreen(
+                  title:
+                      'DESAIN ANTARMUKA & PENGALAMAN PENGGUNA\nD4SM-42-03 [ADY]',
+                  onBack: () => Navigator.pop(context),
+                ),
+              ),
+            );
+          },
         ),
         const SizedBox(height: 15),
         _buildClassItem(
@@ -389,6 +401,17 @@ class _HomeScreenState extends State<HomeScreen> {
           65,
           Colors.red,
           'assets/images/kewarganegaraan.jpg',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ClassDetailScreen(
+                  title: 'KEWARGANEGARAAN\nD4SM-41-GAB1 [BBO], JUMAT 2',
+                  onBack: () => Navigator.pop(context),
+                ),
+              ),
+            );
+          },
         ),
         const SizedBox(height: 15),
         _buildClassItem(
@@ -397,6 +420,17 @@ class _HomeScreenState extends State<HomeScreen> {
           50,
           Colors.blue,
           'assets/images/sistem_operasi.png',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ClassDetailScreen(
+                  title: 'SISTEM OPERASI\nD4SM-44-02 [DDS]',
+                  onBack: () => Navigator.pop(context),
+                ),
+              ),
+            );
+          },
         ),
         const SizedBox(height: 15),
         _buildClassItem(
@@ -405,6 +439,18 @@ class _HomeScreenState extends State<HomeScreen> {
           50,
           Colors.cyan,
           'assets/images/pemrograman.jpg',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ClassDetailScreen(
+                  title:
+                      'PEMROGRAMAN PERANGKAT BERGERAK MULTIMEDIA\nD4SM-41-GAB1 [APJ]',
+                  onBack: () => Navigator.pop(context),
+                ),
+              ),
+            );
+          },
         ),
         const SizedBox(height: 15),
         _buildClassItem(
@@ -413,6 +459,18 @@ class _HomeScreenState extends State<HomeScreen> {
           50,
           const Color.fromARGB(255, 250, 221, 126),
           'assets/images/inggris.jpg',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ClassDetailScreen(
+                  title:
+                      'BAHASA INGGRIS: BUSINES AND SCIENTIFIC\nD4SM-41-GAB1 [ARS]',
+                  onBack: () => Navigator.pop(context),
+                ),
+              ),
+            );
+          },
         ),
         const SizedBox(height: 15),
         _buildClassItem(
@@ -421,6 +479,17 @@ class _HomeScreenState extends State<HomeScreen> {
           50,
           Colors.cyan,
           'assets/images/multimedia.jpg',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ClassDetailScreen(
+                  title: 'PEMROGRAMAN MULTIMEDIA INTERAKTIF\nD4SM-43-04 [TPR]',
+                  onBack: () => Navigator.pop(context),
+                ),
+              ),
+            );
+          },
         ),
         const SizedBox(height: 15),
         _buildClassItem(
@@ -429,6 +498,17 @@ class _HomeScreenState extends State<HomeScreen> {
           50,
           Colors.cyan,
           'assets/images/olahraga.jpg',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ClassDetailScreen(
+                  title: 'OLAH RAGA\nD3TT-44-02 [EYR]',
+                  onBack: () => Navigator.pop(context),
+                ),
+              ),
+            );
+          },
         ),
       ],
     );
@@ -439,9 +519,10 @@ class _HomeScreenState extends State<HomeScreen> {
     String semester,
     int progress,
     Color color,
-    String imagePath,
-  ) {
-    return Row(
+    String imagePath, {
+    VoidCallback? onTap,
+  }) {
+    Widget content = Row(
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(10),
@@ -496,5 +577,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
     );
+
+    if (onTap != null) {
+      return GestureDetector(onTap: onTap, child: content);
+    } else {
+      return content;
+    }
   }
 }
