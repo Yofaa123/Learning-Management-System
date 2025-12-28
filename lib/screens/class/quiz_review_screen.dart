@@ -285,17 +285,7 @@ class QuizReviewScreen extends StatelessWidget {
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => QuizTakingScreen(
-                                  quizTitle: quizTitle,
-                                  isReviewMode: true,
-                                  initialIndex: 0,
-                                  initialAnswers: selectedAnswers,
-                                ),
-                              ),
-                            );
+                            // Disabled as per request
                           },
                           child: const Text(
                             'Lihat',

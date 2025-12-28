@@ -182,6 +182,7 @@ class QuizSummaryScreen extends StatelessWidget {
                                         builder: (context) => QuizTakingScreen(
                                           quizTitle: quizTitle,
                                           isReviewMode: true,
+                                          showCorrectAnswers: true,
                                           initialIndex: index,
                                           initialAnswers: selectedAnswers,
                                         ),

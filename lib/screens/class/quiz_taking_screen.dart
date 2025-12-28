@@ -7,13 +7,15 @@ class QuizTakingScreen extends StatefulWidget {
   final bool isReviewMode;
   final int initialIndex;
   final Map<int, int>? initialAnswers;
+  final bool showCorrectAnswers;
 
   const QuizTakingScreen({
     super.key,
-    this.quizTitle = 'Quiz Review 1',
+    required this.quizTitle,
     this.isReviewMode = false,
     this.initialIndex = 0,
     this.initialAnswers,
+    this.showCorrectAnswers = false,
   });
 
   @override
@@ -25,7 +27,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
   Map<int, int> _selectedAnswers = {}; // questionIndex -> answerIndex (0-4)
   
   // Timer state
-  late Timer _timer;
+  Timer? _timer;
   int _remainingSeconds = 900; // 15 minutes = 900 seconds
   late DateTime _startTime;
 
@@ -37,12 +39,14 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
       _selectedAnswers = Map<int, int>.from(widget.initialAnswers!);
     }
     _startTime = DateTime.now();
-    _startTimer();
+    if (!widget.isReviewMode) {
+      _startTimer();
+    }
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -244,6 +248,7 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
         'SEO optimization',
         'Database management',
       ],
+      'correctIndex': 1,
     },
   ];
 
@@ -296,12 +301,16 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xFFBC4B4B),
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
+        leading: widget.isReviewMode 
+          ? null 
+          : IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.pop(context),
+            ),
+        centerTitle: true,
         title: Text(
-          widget.quizTitle,
+          widget.isReviewMode ? 'Quiz Review 1' : widget.quizTitle,
           style: const TextStyle(
             color: Colors.white,
             fontSize: 18,
@@ -309,78 +318,91 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
           ),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Row(
-              children: [
-                const Icon(Icons.access_time, color: Colors.white, size: 20),
-                const SizedBox(width: 6),
-                Text(
-                  _formatTime(_remainingSeconds),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+          if (!widget.isReviewMode)
+            Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Row(
+                children: [
+                  const Icon(Icons.access_time, color: Colors.white, size: 20),
+                  const SizedBox(width: 6),
+                  Text(
+                    _formatTime(_remainingSeconds),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
+          if (widget.isReviewMode)
+             Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Row(
+                children: [
+                  const Icon(Icons.access_time, color: Colors.white, size: 30),
+                  const SizedBox(width: 8),
+                  const Text(
+                    "15 : 00",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
       body: Column(
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 30),
           
-          // Question Number Indicators
           _buildQuestionIndicators(),
           
-          const SizedBox(height: 20),
+          const SizedBox(height: 30),
           
           // Question Content
           Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Question Number
-                  Text(
-                    'Soal Nomor ${_currentQuestionIndex + 1} / ${_questions.length}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+            child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              children: [
+                Text(
+                  'Soal Nomor ${_currentQuestionIndex + 1} / ${_questions.length}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
-                  
-                  const SizedBox(height: 30),
-                  
-                  // Question Text
-                  Text(
-                    currentQuestion['question'],
-                    style: const TextStyle(
-                      fontSize: 15,
-                      color: Colors.black87,
-                      height: 1.5,
-                    ),
+                ),
+                
+                const SizedBox(height: 40),
+                
+                Text(
+                  currentQuestion['question'] ?? '',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    height: 1.6,
                   ),
-                  
-                  const SizedBox(height: 30),
-                  
-                  // Answer Options
-                  ...List.generate(
-                    currentQuestion['options'].length,
-                    (index) => _buildAnswerOption(
-                      index,
-                      currentQuestion['options'][index],
-                      selectedAnswer == index,
-                    ),
+                ),
+                
+                const SizedBox(height: 40),
+                
+                ...List.generate(
+                  currentQuestion['options'].length,
+                  (index) => _buildAnswerOption(
+                    index,
+                    currentQuestion['options'][index],
+                    selectedAnswer == index,
+                    currentQuestion['correctIndex'],
                   ),
-                  
-                  const SizedBox(height: 30),
-                ],
-              ),
+                ),
+                
+                const SizedBox(height: 30),
+              ],
             ),
           ),
           
@@ -393,15 +415,24 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
 
   Widget _buildQuestionIndicators() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Wrap(
-        spacing: 8,
-        runSpacing: 8,
+        spacing: 12,
+        runSpacing: 12,
         alignment: WrapAlignment.center,
         children: List.generate(_questions.length, (index) {
-          final isAnswered = _selectedAnswers.containsKey(index);
           final isCurrent = index == _currentQuestionIndex;
           
+          Color bgColor = const Color(0xFF2ECC71); // Default for review mode as per Gambar 2
+          Color textColor = Colors.white;
+          Color borderColor = Colors.black;
+
+          if (!widget.isReviewMode) {
+             final isAnswered = _selectedAnswers.containsKey(index);
+             bgColor = isAnswered ? const Color(0xFF2ECC71) : Colors.white;
+             textColor = isAnswered ? Colors.white : Colors.black;
+          }
+
           return GestureDetector(
             onTap: () {
               setState(() {
@@ -409,25 +440,23 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
               });
             },
             child: Container(
-              width: 32,
-              height: 32,
+              width: 30,
+              height: 30,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: widget.isReviewMode 
-                    ? const Color(0xFF00FF00) // Bright Green for Review Mode
-                    : (isAnswered ? const Color(0xFF2ECC71) : Colors.white),
+                color: bgColor,
                 border: Border.all(
-                  color: isCurrent ? Colors.black : Colors.grey[400]!,
-                  width: isCurrent ? 2 : 1,
+                  color: borderColor,
+                  width: isCurrent ? 2.2 : 1.0,
                 ),
               ),
               child: Center(
                 child: Text(
                   '${index + 1}',
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: 11,
                     fontWeight: isCurrent ? FontWeight.bold : FontWeight.w500,
-                    color: (widget.isReviewMode || isAnswered) ? Colors.white : Colors.black,
+                    color: textColor,
                   ),
                 ),
               ),
@@ -438,34 +467,55 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
     );
   }
 
-  Widget _buildAnswerOption(int index, String text, bool isSelected) {
+  Widget _buildAnswerOption(int index, String text, bool isSelected, int? correctIndex) {
     const letters = ['A', 'B', 'C', 'D', 'E'];
+    
+    Color backgroundColor = const Color(0xFFF8F9FA);
+    Color textColor = Colors.black87;
+
+    if (widget.isReviewMode) {
+      if (isSelected) {
+        backgroundColor = const Color(0xFFED6C6C); // Red highlight from design
+        textColor = Colors.black;
+      }
+    } else if (isSelected) {
+      backgroundColor = const Color(0xFFBC4B4B); // Red for Active Selection
+      textColor = Colors.white;
+    }
     
     return GestureDetector(
       onTap: () => _selectAnswer(index),
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.only(bottom: 20),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFE57373) : const Color(0xFFF5F5F5),
-          borderRadius: BorderRadius.circular(12),
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            )
+          ],
         ),
         child: Row(
           children: [
             Text(
               '${letters[index]}.  ',
               style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: isSelected ? Colors.white : Colors.black87,
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                color: textColor,
               ),
             ),
             Expanded(
               child: Text(
                 text,
                 style: TextStyle(
-                  fontSize: 14,
-                  color: isSelected ? Colors.white : Colors.black87,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: textColor,
                 ),
               ),
             ),
@@ -478,7 +528,18 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
   Widget _buildNavigationButtons() {
     final isLastQuestion = _currentQuestionIndex == _questions.length - 1;
     final isFirstQuestion = _currentQuestionIndex == 0;
-    
+
+    // --- REVIEW MODE NAVIGATION ---
+    if (widget.isReviewMode) {
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+        child: Center(
+          child: _buildPillButton('Kembali Ke Halam Review', () => Navigator.pop(context)),
+        ),
+      );
+    }
+
+    // --- NORMAL MODE NAVIGATION ---
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -492,91 +553,85 @@ class _QuizTakingScreenState extends State<QuizTakingScreen> {
           ),
         ],
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: Row(
         children: [
-          if (widget.isReviewMode)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: Center(
-                child: SizedBox(
-                  width: 220,
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFF5F5F5),
-                      foregroundColor: Colors.black87,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: const Text(
-                      'Kembali Ke Halam Review',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+          if (!isFirstQuestion)
+            Expanded(
+              child: OutlinedButton(
+                onPressed: _previousQuestion,
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  side: BorderSide(color: Colors.grey[400]!),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text(
+                  'Soal Sebelumnya',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
             ),
-          if (!widget.isReviewMode)
-            Row(
-              children: [
-              // Previous Button
-              if (!isFirstQuestion)
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: _previousQuestion,
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      side: BorderSide(color: Colors.grey[400]!),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: const Text(
-                      'Soal Sebelumnya',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
+          if (!isFirstQuestion) const SizedBox(width: 12),
+          Expanded(
+            child: ElevatedButton(
+              onPressed: isLastQuestion ? _finishQuiz : _nextQuestion,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isLastQuestion ? const Color(0xFF2ECC71) : Colors.grey[400],
+                foregroundColor: isLastQuestion ? Colors.white : Colors.black87,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
-              
-              if (!isFirstQuestion && !isLastQuestion)
-                const SizedBox(width: 12),
-              
-              // Next/Finish Button
-               Expanded(
-                child: ElevatedButton(
-                  onPressed: isLastQuestion ? _finishQuiz : _nextQuestion,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isLastQuestion ? const Color(0xFF2ECC71) : Colors.grey[400],
-                    foregroundColor: isLastQuestion ? Colors.white : Colors.black87,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: Text(
-                    isLastQuestion ? 'Selesai' : 'Soal Selanjutnya',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                elevation: 0,
+              ),
+              child: Text(
+                isLastQuestion ? 'Selesai' : 'Soal Selanjutnya',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-            ],
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildPillButton(String text, VoidCallback onPressed) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFF5F5F5),
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: TextButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 12,
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }
