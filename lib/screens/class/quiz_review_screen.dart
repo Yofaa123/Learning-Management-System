@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'quiz_taking_screen.dart';
+import 'quiz_result_detail_screen.dart';
 
 class QuizReviewScreen extends StatelessWidget {
   final String quizTitle;
@@ -285,7 +286,16 @@ class QuizReviewScreen extends StatelessWidget {
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
-                            // Disabled as per request
+                            if (selectedAnswers != null) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => QuizResultDetailScreen(
+                                    selectedAnswers: selectedAnswers!,
+                                  ),
+                                ),
+                              );
+                            }
                           },
                           child: const Text(
                             'Lihat',
