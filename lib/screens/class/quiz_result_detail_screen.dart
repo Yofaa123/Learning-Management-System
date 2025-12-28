@@ -217,25 +217,6 @@ class _QuizResultDetailScreenState extends State<QuizResultDetailScreen> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        actions: [
-          const Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Row(
-              children: [
-                Icon(Icons.access_time, color: Colors.white, size: 30),
-                SizedBox(width: 8),
-                Text(
-                  "15 : 00",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
       body: Column(
         children: [
