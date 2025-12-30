@@ -154,7 +154,7 @@ class DashedRectPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint dashedPaint = Paint()
+    Paint paint = Paint()
       ..color = color
       ..strokeWidth = strokeWidth
       ..style = PaintingStyle.stroke;
@@ -162,68 +162,32 @@ class DashedRectPainter extends CustomPainter {
     double x = size.width;
     double y = size.height;
 
-    Path _topPath = getDashedPath(
-      a: const Point(0, 0),
-      b: Point(x, 0),
-      gap: gap,
-    );
+    Path path = Path();
 
-    Path _rightPath = getDashedPath(
-      a: Point(x, 0),
-      b: Point(x, y),
-      gap: gap,
-    );
+    // Top
+    _addDashedLine(path, Offset(0, 0), Offset(x, 0), gap);
+    // Right
+    _addDashedLine(path, Offset(x, 0), Offset(x, y), gap);
+    // Bottom
+    _addDashedLine(path, Offset(x, y), Offset(0, y), gap);
+    // Left
+    _addDashedLine(path, Offset(0, y), Offset(0, 0), gap);
 
-    Path _bottomPath = getDashedPath(
-      a: Point(0, y),
-      b: Point(x, y),
-      gap: gap,
-    );
-
-    Path _leftPath = getDashedPath(
-      a: const Point(0, 0),
-      b: Point(0, y),
-      gap: gap,
-    );
-
-    canvas.drawPath(_topPath, dashedPaint);
-    canvas.drawPath(_rightPath, dashedPaint);
-    canvas.drawPath(_bottomPath, dashedPaint);
-    canvas.drawPath(_leftPath, dashedPaint);
+    canvas.drawPath(path, paint);
   }
 
-  Path getDashedPath({
-    required Point<double> a,
-    required Point<double> b,
-    required double gap,
-  }) {
-    Size size = Size(b.x - a.x, b.y - a.y);
-    Path path = Path();
-    path.moveTo(a.x, a.y);
-    bool shouldDraw = true;
-    Point<double> currentPoint = Point(a.x, a.y);
+  void _addDashedLine(Path path, Offset start, Offset end, double gap) {
+    double distance = (end - start).distance;
+    double dx = (end.dx - start.dx) / distance;
+    double dy = (end.dy - start.dy) / distance;
 
-    num radians = atan(size.height / size.width);
-
-    num dx = cos(radians) * gap < 0
-        ? cos(radians) * gap * -1
-        : cos(radians) * gap;
-
-    num dy = sin(radians) * gap < 0
-        ? sin(radians) * gap * -1
-        : sin(radians) * gap;
-
-    while (currentPoint.x <= b.x && currentPoint.y <= b.y) {
-      shouldDraw
-          ? path.lineTo(currentPoint.x, currentPoint.y)
-          : path.moveTo(currentPoint.x, currentPoint.y);
-      shouldDraw = !shouldDraw;
-      currentPoint = Point(
-        currentPoint.x + dx,
-        currentPoint.y + dy,
-      );
+    double currentDistance = 0;
+    while (currentDistance < distance) {
+      double nextDistance = min(currentDistance + gap, distance);
+      path.moveTo(start.dx + dx * currentDistance, start.dy + dy * currentDistance);
+      path.lineTo(start.dx + dx * nextDistance, start.dy + dy * nextDistance);
+      currentDistance += gap * 2;
     }
-    return path;
   }
 
   @override
