@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'upload_assignment_sheet.dart';
 
-class AssignmentDetailScreen extends StatelessWidget {
+class AssignmentDetailScreen extends StatefulWidget {
   const AssignmentDetailScreen({super.key});
+
+  @override
+  State<AssignmentDetailScreen> createState() => _AssignmentDetailScreenState();
+}
+
+class _AssignmentDetailScreenState extends State<AssignmentDetailScreen> {
+  final List<String> _fileNames = ["Dandy Candra Pratama_7708170114.pdf"];
 
   @override
   Widget build(BuildContext context) {
@@ -71,20 +78,33 @@ class AssignmentDetailScreen extends StatelessWidget {
              _buildStatusRow("Status Nilai", "Belum Di nilai", isGrey: false),
              _buildStatusRow("Batas tanggal", "Jumat, 26 Februari 2021, 23:59 WIB", isGrey: true),
              _buildStatusRow("Sisa Waktu", "Tugas sudah di kirim 4 Hari 6 Jam Sebelum nya", isGrey: false),
-             _buildFileRow("File Tugas", "Dandy Candra Pratama_7708170114.pdf", isGrey: true),
+             
+             // Render all files
+             ..._fileNames.asMap().entries.map((entry) {
+               int idx = entry.key;
+               String fileName = entry.value;
+               // Continue alternating colors: 4 status rows (T, F, T, F) -> files start with grey (T) then (F)
+               return _buildFileRow("File Tugas", fileName, isGrey: idx % 2 == 0);
+             }).toList(),
 
              const SizedBox(height: 40),
              Center(
                child: Container(
                  margin: const EdgeInsets.only(bottom: 30),
                  child: ElevatedButton(
-                   onPressed: () {
-                     showModalBottomSheet(
+                   onPressed: () async {
+                     final result = await showModalBottomSheet<String>(
                        context: context,
                        backgroundColor: Colors.transparent,
                        isScrollControlled: true,
                        builder: (context) => const UploadAssignmentSheet(),
                      );
+                     
+                     if (result != null) {
+                       setState(() {
+                         _fileNames.add(result);
+                       });
+                     }
                    },
                    style: ElevatedButton.styleFrom(
                      backgroundColor: Colors.grey[200],

@@ -139,8 +139,8 @@ class _UploadAssignmentSheetState extends State<UploadAssignmentSheet> {
                       width: 200,
                       child: ElevatedButton(
                         onPressed: () {
-                          // Close sheet
-                          Navigator.pop(context);
+                          // Close sheet and return filename
+                          Navigator.pop(context, _selectedFileName);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey[100],
