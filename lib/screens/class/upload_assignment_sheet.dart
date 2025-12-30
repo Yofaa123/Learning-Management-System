@@ -1,8 +1,26 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:file_picker/file_picker.dart';
 
-class UploadAssignmentSheet extends StatelessWidget {
+class UploadAssignmentSheet extends StatefulWidget {
   const UploadAssignmentSheet({super.key});
+
+  @override
+  State<UploadAssignmentSheet> createState() => _UploadAssignmentSheetState();
+}
+
+class _UploadAssignmentSheetState extends State<UploadAssignmentSheet> {
+  String? _selectedFileName;
+
+  Future<void> _pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      setState(() {
+        _selectedFileName = result.files.single.name;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +96,16 @@ class UploadAssignmentSheet extends StatelessWidget {
                         Icon(
                           Icons.cloud_upload,
                           size: 80,
-                          color: Colors.blue[400],
+                          color: _selectedFileName != null ? Colors.green[400] : Colors.blue[400],
                         ),
                         const SizedBox(height: 16),
-                        const Text(
-                          "File yang akan di upload akan tampil di sini",
-                          style: TextStyle(color: Colors.black54, fontSize: 13),
+                        Text(
+                          _selectedFileName ?? "File yang akan di upload akan tampil di sini",
+                          style: TextStyle(
+                            color: _selectedFileName != null ? Colors.black87 : Colors.black54, 
+                            fontSize: 13,
+                            fontWeight: _selectedFileName != null ? FontWeight.bold : FontWeight.normal,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -99,7 +121,7 @@ class UploadAssignmentSheet extends StatelessWidget {
                     SizedBox(
                       width: 200,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: _pickFile,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey[100],
                           foregroundColor: Colors.black,
