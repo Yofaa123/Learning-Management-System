@@ -26,10 +26,7 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: widget.videoId,
-      flags: const YoutubePlayerFlags(
-        autoPlay: true,
-        mute: false,
-      ),
+      flags: const YoutubePlayerFlags(autoPlay: true, mute: false),
     );
   }
 
@@ -76,14 +73,14 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
                 handleColor: Color(0xFFBC4B4B),
               ),
             ),
-          
+
           // Video List Section
           Expanded(
             child: ListView(
               padding: const EdgeInsets.all(20),
               children: [
                 const Text(
-                  "Video Lain Nya",
+                  "Video Lainnya",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -91,10 +88,11 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                
+
                 // Video 1 - Interaction Design
                 _buildVideoItem(
-                  thumbnailUrl: "https://img.youtube.com/vi/U7rS_2ch_Ps/mqdefault.jpg",
+                  thumbnailUrl:
+                      "https://img.youtube.com/vi/U7rS_2ch_Ps/mqdefault.jpg",
                   title: "Interaction Design",
                   onTap: () {
                     Navigator.pushReplacement(
@@ -108,10 +106,11 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
                     );
                   },
                 ),
-                
+
                 // Video 2 - Pengantar Desain Antarmuka Pengguna
                 _buildVideoItem(
-                  thumbnailUrl: "https://img.youtube.com/vi/oWI02NbZnaE/mqdefault.jpg",
+                  thumbnailUrl:
+                      "https://img.youtube.com/vi/oWI02NbZnaE/mqdefault.jpg",
                   title: "Pengantar Desain\nAntarmuka Pengguna",
                   onTap: () {
                     Navigator.pushReplacement(
@@ -125,10 +124,11 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
                     );
                   },
                 ),
-                
+
                 // Video 3 - 4 Teori Dasar Desain Antarmuka Pengguna
                 _buildVideoItem(
-                  thumbnailUrl: "https://img.youtube.com/vi/Zo-j_FTKBow/mqdefault.jpg",
+                  thumbnailUrl:
+                      "https://img.youtube.com/vi/Zo-j_FTKBow/mqdefault.jpg",
                   title: "4 Teori Dasar Desain\nAntarmuka Pengguna",
                   onTap: () {
                     Navigator.pushReplacement(
@@ -142,10 +142,11 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
                     );
                   },
                 ),
-                
+
                 // Video 4 - Tutorial Dasar Figma
                 _buildVideoItem(
-                  thumbnailUrl: "https://img.youtube.com/vi/FTFaQWZBqQ8/mqdefault.jpg",
+                  thumbnailUrl:
+                      "https://img.youtube.com/vi/FTFaQWZBqQ8/mqdefault.jpg",
                   title: "Tutorial Dasar Figma -\nUI/UX Design Software",
                   onTap: () {
                     Navigator.pushReplacement(
@@ -153,7 +154,8 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
                       MaterialPageRoute(
                         builder: (context) => const VideoDetailScreen(
                           videoId: "FTFaQWZBqQ8",
-                          videoTitle: "Tutorial Dasar Figma - UI/UX Design Software",
+                          videoTitle:
+                              "Tutorial Dasar Figma - UI/UX Design Software",
                         ),
                       ),
                     );
@@ -197,7 +199,9 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
                   color: Colors.grey[300],
                   child: const Center(
                     child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFBC4B4B)),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Color(0xFFBC4B4B),
+                      ),
                     ),
                   ),
                 ),
@@ -208,7 +212,11 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
                   child: const Stack(
                     alignment: Alignment.center,
                     children: [
-                      Icon(Icons.play_circle_outline, size: 50, color: Colors.grey),
+                      Icon(
+                        Icons.play_circle_outline,
+                        size: 50,
+                        color: Colors.grey,
+                      ),
                     ],
                   ),
                 ),
@@ -235,8 +243,9 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
 
   // Web Video Player - Shows thumbnail with play button
   Widget _buildWebVideoPlayer() {
-    final thumbnailUrl = "https://img.youtube.com/vi/${widget.videoId}/maxresdefault.jpg";
-    
+    final thumbnailUrl =
+        "https://img.youtube.com/vi/${widget.videoId}/maxresdefault.jpg";
+
     return GestureDetector(
       onTap: () => _openYouTubeInBrowser(widget.videoId),
       child: Container(
@@ -256,22 +265,26 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
                 color: Colors.black,
                 child: const Center(
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFBC4B4B)),
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Color(0xFFBC4B4B),
+                    ),
                   ),
                 ),
               ),
               errorWidget: (context, url, error) => Container(
                 color: Colors.black,
                 child: const Center(
-                  child: Icon(Icons.video_library, size: 80, color: Colors.white54),
+                  child: Icon(
+                    Icons.video_library,
+                    size: 80,
+                    color: Colors.white54,
+                  ),
                 ),
               ),
             ),
             // Play button overlay
             Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.3),
-              ),
+              decoration: BoxDecoration(color: Colors.black.withOpacity(0.3)),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -290,7 +303,10 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
                 ),
                 const SizedBox(height: 15),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(20),
