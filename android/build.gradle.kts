@@ -6,9 +6,8 @@ allprojects {
 }
 
 val newBuildDir: Directory =
-    rootProject.layout.buildDirectory
-        .dir("../../build")
-        .get()
+    rootProject.layout.projectDirectory
+        .dir("../build")
 rootProject.layout.buildDirectory.value(newBuildDir)
 
 subprojects {
@@ -17,6 +16,13 @@ subprojects {
 }
 subprojects {
     project.evaluationDependsOn(":app")
+
+    // Add this to skip unit tests for plugins which often cause "different roots" error on Windows
+    tasks.whenTaskAdded {
+        if (name.contains("compileDebugUnitTestSources") || name.contains("compileReleaseUnitTestSources")) {
+            enabled = false
+        }
+    }
 }
 
 tasks.register<Delete>("clean") {

@@ -24,3 +24,9 @@ plugins {
 }
 
 include(":app")
+include(":flutter_plugin_android_lifecycle")
+project(":flutter_plugin_android_lifecycle").projectDir = file("../.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.33/android")
+include(":path_provider_android")
+project(":path_provider_android").projectDir = file("../.pub-cache/hosted/pub.dev/path_provider_android-2.2.22/android")
+include(":url_launcher_android")
+project(":url_launcher_android").projectDir = file("../.pub-cache/hosted/pub.dev/url_launcher_android-6.3.28/android")
