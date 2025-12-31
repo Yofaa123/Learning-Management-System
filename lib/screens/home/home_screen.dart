@@ -4,6 +4,8 @@ import '../announcement/announcement_screen.dart';
 import '../class/class_screen.dart';
 import '../notification/notification_screen.dart';
 import '../class/class_detail_screen.dart';
+import '../class/assignment_detail_screen.dart';
+
 
 class HomeScreen extends StatefulWidget {
   final String initialUserName;
@@ -266,53 +268,61 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildTaskCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: const Color(0xFFA61C1C),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        children: const [
-          Text(
-            'DESAIN ANTARMUKA & PENGALAMAN PENGGUNA',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AssignmentDetailScreen()),
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: const Color(0xFFA61C1C),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
             ),
-          ),
-          SizedBox(height: 10),
-          Text(
-            'Tugas 01 - UID Android Mobile Game',
-            style: TextStyle(color: Colors.white, fontSize: 12),
-          ),
-          SizedBox(height: 20),
-          Divider(color: Colors.white54, thickness: 1),
-          SizedBox(height: 10),
-          Text(
-            'Waktu Pengumpulan',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
+          ],
+        ),
+        child: Column(
+          children: const [
+            Text(
+              'DESAIN ANTARMUKA & PENGALAMAN PENGGUNA',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
             ),
-          ),
-          Text(
-            'Jumat 26 Februari, 23:59 WIB',
-            style: TextStyle(color: Colors.white, fontSize: 12),
-          ),
-        ],
+            SizedBox(height: 10),
+            Text(
+              'Tugas 01 - UID Android Mobile Game',
+              style: TextStyle(color: Colors.white, fontSize: 12),
+            ),
+            SizedBox(height: 20),
+            Divider(color: Colors.white54, thickness: 1),
+            SizedBox(height: 10),
+            Text(
+              'Waktu Pengumpulan',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+            Text(
+              'Jumat 26 Februari, 23:59 WIB',
+              style: TextStyle(color: Colors.white, fontSize: 12),
+            ),
+          ],
+        ),
       ),
     );
   }
